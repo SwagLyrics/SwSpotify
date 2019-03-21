@@ -58,7 +58,7 @@ if (window.Notification) {
       }
                   
 xhr = new XMLHttpRequest();           
-var url = "http://127.0.0.1:5042/";
+var url = "http://127.0.0.1:5042/getsong";
 xhr.open("POST", url, true);
 xhr.setRequestHeader("Content-type", "application/json");
 xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
