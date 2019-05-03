@@ -1,8 +1,13 @@
 # SwSpotify
 
-SwSpotify is a python library to get the song and artist of the currently playing song from the Spotify application faster and without using the API. It works on Windows, Linux and macOS.
+![PyPI](https://img.shields.io/pypi/v/swspotify.svg)
+[![Downloads](https://pepy.tech/badge/swspotify)](https://pepy.tech/project/swspotify)
+
+SwSpotify is a python library to get the song and artist of the currently playing song from the Spotify application faster and without using the API. It works on Windows, Linux and macOS. 
 
 The original repository was [spotilib](https://github.com/XanderMJ/spotilib) which worked just for Windows and hasn't been updated since a long while when it broke on account of Spotify updating their application.
+
+Originally made for use in [SwagLyrics for Spotify](https://github.com/SwagLyrics/SwagLyrics-For-Spotify).
 
 ## Installation
 
