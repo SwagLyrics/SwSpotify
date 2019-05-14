@@ -1,5 +1,8 @@
 # SwSpotify
 
+[![Build Status](https://travis-ci.com/SwagLyrics/SwSpotify.svg?branch=master)](https://travis-ci.com/SwagLyrics/SwSpotify)
+[![Build status](https://ci.appveyor.com/api/projects/status/c8heviwe9q2m8lb0?svg=true)](https://ci.appveyor.com/project/TheClashster/swspotify)
+[![codecov](https://codecov.io/gh/SwagLyrics/SwSpotify/branch/master/graph/badge.svg)](https://codecov.io/gh/SwagLyrics/SwSpotify)
 ![PyPI](https://img.shields.io/pypi/v/swspotify.svg)
 [![Downloads](https://pepy.tech/badge/swspotify)](https://pepy.tech/project/swspotify)
 
