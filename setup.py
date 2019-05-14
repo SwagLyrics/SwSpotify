@@ -1,11 +1,12 @@
 import setuptools
+import SwSpotify
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="SwSpotify",
-    version="0.0.2",
+    version=SwSpotify.__version__,
     author="Aadi Bajpai",
     author_email="swspotify@aadibajpai.me",
     description="Get currently playing song and artist from Spotify faster without using the API.",
