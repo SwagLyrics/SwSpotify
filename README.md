@@ -21,15 +21,14 @@ pip install SwSpotify
 
 ## Usage
 
-Use it in your project by importing it as:
 ```python
 from SwSpotify import spotify
+song = spotify.current_playing_song()
+print(song.artist)
+print(song.title)
 ```
-Then you can access the song and artist as:
-```python
->>> spotify.song()
->>> spotify.artist()
-```
+
+If Spotify is not running, the SpotifyNotRunning exception is raised.
 
 ## Compiling SwSpotify for Development
 

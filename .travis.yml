@@ -1,4 +1,11 @@
 language: python
+sudo: false
+
+addons:
+  apt:
+    packages:
+    - libdbus-1-dev
+    - libgirepository1.0-dev
 python:
   - "3.4"
   - "3.5"
@@ -7,12 +14,14 @@ python:
 # command to install dependencies
 install:
   - pip install .
+  - pip install PyGObject
+  - pip install pydbus
   - pip install codecov
   - pip install nose-cov
   - pip install nose-exclude
 # command to run tests
 script:
-  - nosetests --exclude-test=test_spotify.WindowsTests --nocapture --with-cov --cov-config .coveragerc
+  - nosetests --exclude-test=test_spotify.DarwinTests --exclude-test=test_spotify.WindowsTests --nocapture --with-cov --cov-config .coveragerc
 
 after_success:
 - codecov
