@@ -1,17 +1,25 @@
+import os
+from codecs import open
 import setuptools
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+here = os.path.abspath(os.path.dirname(__file__))
+about = {}
+with open(os.path.join(here, 'SwSpotify', '__version__.py'), 'r', 'utf-8') as f:
+    exec(f.read(), about)
+
 setuptools.setup(
-    name="SwSpotify",
-    version="1.0.0",
-    author="Aadi Bajpai",
-    author_email="swspotify@aadibajpai.me",
-    description="Get currently playing song and artist from Spotify faster without using the API.",
+    name=about['__title__'],
+    version=about['__version__'],
+    author=about['__author__'],
+    author_email=about['__author_email__'],
+    description=about['__description__'],
+    license=about['__license__'],
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/SwagLyrics/SwSpotify",
+    url=about['__url__'],
     packages=setuptools.find_packages(),
     install_requires=[
         'pywin32; platform_system=="Windows"',

@@ -1,0 +1,7 @@
+__title__ = 'SwSpotify'
+__description__ = 'Get currently playing song and artist from Spotify faster without using the API.'
+__url__ = 'https://github.com/SwagLyrics/SwSpotify'
+__version__ = '1.0.0'
+__author__ = 'Aadi Bajpai'
+__author_email__ = 'swspotify@aadibajpai.me'
+__license__ = 'MIT'
