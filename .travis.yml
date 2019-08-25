@@ -1,15 +1,25 @@
+os:
+  - linux
+  - osx
+
+dist: xenial   # required for Python >= 3.7
+
 language: python
+
 python:
   - "3.4"
   - "3.5"
   - "3.6"
+  - "3.7"
   - nightly
+
 # command to install dependencies
 install:
   - pip install .
   - pip install codecov
   - pip install nose-cov
   - pip install nose-exclude
+
 # command to run tests
 script:
   - nosetests --exclude-test=test_spotify.WindowsTests --nocapture --with-cov --cov-config .coveragerc

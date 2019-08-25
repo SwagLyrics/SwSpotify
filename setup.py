@@ -8,7 +8,7 @@ setuptools.setup(
     name="SwSpotify",
     version=SwSpotify.__version__,
     author="Aadi Bajpai",
-    author_email="swspotify@aadibajpai.me",
+    author_email="swspotify@swaglyrics.dev",
     description="Get currently playing song and artist from Spotify faster without using the API.",
     long_description=long_description,
     long_description_content_type="text/markdown",
