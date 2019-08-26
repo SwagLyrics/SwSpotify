@@ -13,7 +13,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/SwagLyrics/SwSpotify",
-    packages=setuptools.find_packages(),
+    packages=['SwSpotify'],
     install_requires=['pywin32; platform_system=="Windows"',
                       'pyobjc; platform_system=="Darwin"'],
     keywords='spotify swaglyrics python app',
