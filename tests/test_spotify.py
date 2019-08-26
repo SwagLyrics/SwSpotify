@@ -66,7 +66,7 @@ class WindowsTests(unittest.TestCase):
 		test that get_info_windows works
 		"""
 		x = get_info_windows()
-		self.assertEqual(x, ("Alan Walker", "Darkside"))
+		self.assertEqual(x, ("Darkside", "Alan Walker"))
 
 	@mock.patch('win32gui.GetWindowText', return_value='Alan Walker')
 	@mock.patch('win32gui.EnumWindows', return_value=None)
@@ -75,7 +75,7 @@ class WindowsTests(unittest.TestCase):
 		test that get_info_windows return None when it doesn't find
 		"""
 		x = get_info_windows()
-		self.assertEqual(x, None)
+		self.assertEqual(x, (None, None))
 
 	@patch('SwSpotify.spotify.get_info_windows')
 	def test_that_artist_function_calls_get_info(self, mock):
