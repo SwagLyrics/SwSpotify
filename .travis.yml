@@ -19,7 +19,7 @@ install:
   - pip install nose-exclude
 # command to run tests
 script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then nosetests tests/test_spotify:LinuxTests --nocapture --with-cov --cov-config .coveragerc; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then nosetests tests/test_spotify:DarwinTests --nocapture --with-cov --cov-config .coveragerc; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then nosetests tests/test_spotify.py:LinuxTests --nocapture --with-cov --cov-config .coveragerc; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then nosetests tests/test_spotify.py:DarwinTests --nocapture --with-cov --cov-config .coveragerc; fi
 after_success:
 - codecov

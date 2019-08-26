@@ -1,5 +1,5 @@
 """
-Contains unit tests for spotify.py for linux
+Contains unit tests for spotify.py
 """
 import unittest
 from SwSpotify.spotify import get_info_linux, get_info_windows, get_info_mac, song, artist
