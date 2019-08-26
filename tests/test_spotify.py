@@ -110,13 +110,12 @@ class WindowsTests(unittest.TestCase):
 		self.assertEqual(x, None)
 
 
-@mock.patch('platform.system', return_value='Darwin')
 class DarwinTests(unittest.TestCase):
 	"""
 	Unit tests for macOS
 	"""
 
-	def setup(self, mock_os):
+	def setup(self):
 		pass
 
 	@patch('SwSpotify.spotify.get_info_mac')

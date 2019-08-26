@@ -1,19 +1,24 @@
 os:
   - linux
-  - osx
 
-dist: xenial   # required for Python >= 3.7
+dist: bionic   # required for Python >= 3.7
 
 language: python
 
 python:
-  - "3.4"
-  - "3.5"
   - "3.6"
   - "3.7"
+  - "3.8-dev"
   - nightly
 
-# command to install dependencies
+matrix:
+  include:
+    - os: osx
+      language: shell
+      osx_image: xcode11
+
+
+  # command to install dependencies
 install:
   - pip install .
   - pip install codecov
@@ -22,7 +27,10 @@ install:
 
 # command to run tests
 script:
-  - nosetests --exclude-test=test_spotify.WindowsTests --nocapture --with-cov --cov-config .coveragerc
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then nosetests test_spotify.LinuxTests --nocapture
+  --with-cov --cov-config .coveragerc; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then nosetests test_spotify.DarwinTests --nocapture --with-cov
+  --cov-config .coveragerc; fi
 
 after_success:
 - codecov
