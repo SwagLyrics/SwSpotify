@@ -1,5 +1,4 @@
-os:
-  - linux
+os: linux
 
 dist: bionic   # required for Python >= 3.7
 
@@ -17,8 +16,7 @@ matrix:
       language: shell
       osx_image: xcode11
 
-
-  # command to install dependencies
+# command to install dependencies
 install:
   - pip install .
   - pip install codecov
@@ -27,10 +25,8 @@ install:
 
 # command to run tests
 script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then nosetests test_spotify.LinuxTests --nocapture
-  --with-cov --cov-config .coveragerc; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then nosetests test_spotify.DarwinTests --nocapture --with-cov
-  --cov-config .coveragerc; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then nosetests test_spotify:LinuxTests --nocapture --with-cov --cov-config .coveragerc; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then nosetests test_spotify.DarwinTests --nocapture --with-cov --cov-config .coveragerc; fi
 
 after_success:
 - codecov
