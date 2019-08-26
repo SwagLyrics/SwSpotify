@@ -18,7 +18,7 @@ install:
   - pip3 install -r dev-requirements.txt
 # command to run tests
 script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pytest tests/test_spotify.py::LinuxTests; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pytest tests/test_spotify.py::DarwinTests; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pytest --cov-config=.coveragerc --cov=SwSpotify tests/test_spotify.py::LinuxTests; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pytest --cov-config=.coveragerc --cov=SwSpotify tests/test_spotify.py::DarwinTests; fi
 after_success:
 - codecov
