@@ -2,8 +2,8 @@
 Contains unit tests for spotify.py
 """
 import unittest
-from SwSpotify.spotify import get_info_linux, get_info_windows, get_info_mac, song, artist
-from mock import mock, patch, Mock
+from SwSpotify.spotify import song, artist, get_info_windows
+from mock import patch
 import platform
 
 
@@ -59,8 +59,8 @@ class WindowsTests(unittest.TestCase):
 	if platform.system() == "Windows":
 		import win32gui
 		
-	@mock.patch('win32gui.GetWindowText', return_value='Alan Walker - Darkside')
-	@mock.patch('win32gui.EnumWindows', return_value=None)
+	@patch('win32gui.GetWindowText', return_value='Alan Walker - Darkside')
+	@patch('win32gui.EnumWindows', return_value=None)
 	def test_get_info_windows(self, mock_win32gui_1, mock_win32gui_2):
 		"""
 		test that get_info_windows works
@@ -68,8 +68,8 @@ class WindowsTests(unittest.TestCase):
 		x = get_info_windows()
 		self.assertEqual(x, ("Darkside", "Alan Walker"))
 
-	@mock.patch('win32gui.GetWindowText', return_value='Alan Walker')
-	@mock.patch('win32gui.EnumWindows', return_value=None)
+	@patch('win32gui.GetWindowText', return_value='Alan Walker')
+	@patch('win32gui.EnumWindows', return_value=None)
 	def test_get_info_windows_error_handling(self, mock_win32gui_1, mock_win32gui_2):
 		"""
 		test that get_info_windows return None when it doesn't find
@@ -119,7 +119,7 @@ class DarwinTests(unittest.TestCase):
 		pass
 
 	@patch('SwSpotify.spotify.get_info_mac')
-	def test_that_artist_function_calls_get_info(self, mock, mock_os):
+	def test_that_artist_function_calls_get_info(self, mock):
 		"""
 		test that test artist function calls get_info_mac function
 		"""
@@ -127,7 +127,7 @@ class DarwinTests(unittest.TestCase):
 		self.assertTrue(mock.called)
 
 	@patch('SwSpotify.spotify.get_info_mac')
-	def test_that_song_function_calls_get_info(self, mock, mock_os):
+	def test_that_song_function_calls_get_info(self, mock):
 		"""
 		test that test song function calls get_info_mac function
 		"""
@@ -135,7 +135,7 @@ class DarwinTests(unittest.TestCase):
 		self.assertTrue(mock.called)
 
 	@patch('SwSpotify.spotify.get_info_mac', side_effect=ValueError)
-	def test_that_artist_function_returns_None_when_error(self, mock, mock_os):
+	def test_that_artist_function_returns_None_when_error(self, mock):
 		"""
 		test that test artist function returns None when the get_info_mac function will return an error
 		"""
@@ -143,7 +143,7 @@ class DarwinTests(unittest.TestCase):
 		self.assertEqual(x, None)
 
 	@patch('SwSpotify.spotify.get_info_mac', side_effect=ValueError)
-	def test_that_song_function_returns_None_when_error(self, mock, mock_os):
+	def test_that_song_function_returns_None_when_error(self, mock):
 		"""
 		test that test song function returns None when the get_info_mac function will return an error
 		"""

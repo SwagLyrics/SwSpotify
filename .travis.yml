@@ -13,13 +13,12 @@ matrix:
       osx_image: xcode11
 # command to install dependencies
 install:
-  - pip install .
-  - pip install codecov
-  - pip install nose-cov
-  - pip install nose-exclude
+  - pip3 install --upgrade pip
+  - pip3 install .
+  - pip3 install -r dev-requirements.txt
 # command to run tests
 script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then nosetests tests/test_spotify.py:LinuxTests --nocapture --with-cov --cov-config .coveragerc; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then nosetests tests/test_spotify.py:DarwinTests --nocapture --with-cov --cov-config .coveragerc; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pytest tests/test_spotify.py::LinuxTests; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pytest tests/test_spotify.py::DarwinTests; fi
 after_success:
 - codecov
