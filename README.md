@@ -22,15 +22,27 @@ pip install SwSpotify
 ## Usage
 
 Use it in your project by importing it as:
-```python
+```pydocstring
 from SwSpotify import spotify
 ```
 Then you can access the song and artist as:
-```python
+```pydocstring
 >>> spotify.song()
+'Hello'
 >>> spotify.artist()
+'Adele'
+```
+Since mostly song and artist are used in conjunction, there is a `current()` method as well.
+```pydocstring
+>>> spotify.current()
+('Hello', 'Adele')
+```
+This allows you to access song and artist by tuple unpacking as:
+```pydocstring
+>>> song, artist = spotify.current()
 ```
 
+If Spotify is not running or is paused, a `SpotifyNotRunning` Exception is raised.
 ## Compiling SwSpotify for Development
 
 - Clone the repo by `git clone https://github.com/SwagLyrics/SwSpotify.git` or use ssh.
