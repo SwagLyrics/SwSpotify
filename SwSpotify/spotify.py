@@ -1,11 +1,25 @@
 import platform
 
 
+class SpotifyNotRunning(Exception):
+    """Exception raised if Spotify is not running or is paused.
+
+        Attributes:
+            expression -- input expression in which the error occurred
+            message -- explanation of the error
+        """
+
+    def __init__(self, message="Spotify doesn't appear to be playing at the moment."):
+        super().__init__(message)
+
+
 def get_info_windows():
     import win32gui
 
+    windows = []
+
     # Older Spotify versions - simply FindWindow for "SpotifyMainWindow"
-    windows = [win32gui.GetWindowText(win32gui.FindWindow("SpotifyMainWindow", None))]
+    old = win32gui.GetWindowText(win32gui.FindWindow("SpotifyMainWindow", None))
 
     # Newer Spotify versions - create an EnumHandler for EnumWindows and flood the list with Chrome_WidgetWin_0s
     def find_spotify_uwp(hwnd, windows):
@@ -13,18 +27,13 @@ def get_info_windows():
         if win32gui.GetClassName(hwnd) == "Chrome_WidgetWin_0" and len(text) > 0:
             windows.append(text)
 
-    win32gui.EnumWindows(find_spotify_uwp, windows)
+    if old:
+        windows.append(old)
+    else:
+        win32gui.EnumWindows(find_spotify_uwp, windows)
 
-    while windows.count != 0:
-        try:
-            text = windows.pop()
-        except:
-            return None, None
-        try:
-            artist, track = text.split(" - ", 1)
-            return track, artist
-        except:
-            pass
+    artist, track = windows[0].split(" - ", 1)
+    return track, artist
 
 
 def get_info_linux():
@@ -58,21 +67,16 @@ def get_info_mac():
 
 
 def current():
-    if platform.system() == "Windows":
-        try:
+    try:
+        if platform.system() == "Windows":
             return get_info_windows()
-        except:
-            return None, None
-    elif platform.system() == "Darwin":
-        try:
+        elif platform.system() == "Darwin":
             return get_info_mac()
-        except:
-            return None, None
-    else:
-        try:
+        else:
             return get_info_linux()
-        except:
-            return None, None
+    except Exception:
+        raise SpotifyNotRunning from None
+        # from None used to suppress error context
 
 
 def artist():
