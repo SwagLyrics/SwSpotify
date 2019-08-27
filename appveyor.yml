@@ -19,6 +19,7 @@ install:
   - "%PYTHON%\\python.exe -m pip install setuptools -U"
   - "%PYTHON%\\python.exe -m pip install ."
   - "%PYTHON%\\python.exe -m pip install -r dev-requirements.txt"
+  - "%PYTHON%\\python.exe -m pip install codecov"
 
 build: off
 
@@ -38,7 +39,7 @@ after_test:
   # Again, you only need build.cmd if you're building C extensions for
   # 64-bit Python 3.3/3.4. And you need to use %PYTHON% to get the correct
   # interpreter
-  - "bash <(curl -s https://codecov.io/bash) -Z"
+  - "%PYTHON%\\python.exe -m codecov"
 
 artifacts:
   # bdist_wheel puts your built wheel in the dist directory
