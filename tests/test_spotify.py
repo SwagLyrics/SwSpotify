@@ -2,7 +2,8 @@
 Contains unit tests for spotify.py
 """
 import unittest
-from SwSpotify.spotify import song, artist, get_info_windows, SpotifyNotRunning
+from SwSpotify.spotify import song, artist, get_info_windows
+from SwSpotify import SpotifyNotRunning
 from mock import patch
 import platform
 
