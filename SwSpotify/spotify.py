@@ -66,6 +66,10 @@ def get_info_linux(return_status = False):
 
 
 def get_info_mac(return_status = False):
+    """
+    Exceptions aren't thrown inside get_info_mac because it automatically opens Spotify if it's closed.
+    """
+
     from Foundation import NSAppleScript
 
     apple_script_code = """
@@ -76,7 +80,7 @@ def get_info_mac(return_status = False):
             set isPlaying to player state as string
             set currentArtist to artist of current track as string
             set currentTrack to name of current track as string
-            return {currentArtist, currentTrack}
+            return {currentArtist, currentTrack, isPlaying}
         end tell
     end getCurrentlyPlayingTrack
     """
