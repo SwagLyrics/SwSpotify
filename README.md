@@ -31,15 +31,23 @@ Then you can access the song and artist as:
 'Hello'
 >>> spotify.artist()
 'Adele'
+>>> spotify.is_playing()
+True
 ```
 Since mostly song and artist are used in conjunction, there is a `current()` method as well.
 ```pydocstring
 >>> spotify.current()
 ('Hello', 'Adele')
 ```
+or you can pass `return_status=True` to also get whether it's playing or not.
+```pydocstring
+>>> spotify.current(return_status=True)
+('Hello', 'Adele', True)
+```
 This allows you to access song and artist by tuple unpacking as:
 ```pydocstring
 >>> song, artist = spotify.current()
+>>> song, artist, is_playing = spotify.current(return_status=True)
 ```
 
 If Spotify is not running or is paused, a `SpotifyNotRunning` Exception is raised.
