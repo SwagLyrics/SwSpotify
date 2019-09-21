@@ -44,7 +44,10 @@ def get_info_linux(return_status = False):
     import dbus
 
     session_bus = dbus.SessionBus()
-    spotify_bus = session_bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
+    try:
+        spotify_bus = session_bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
+    except dbus.exceptions.DBusException:
+        raise SpotifyNotRunning
     spotify_properties = dbus.Interface(spotify_bus, "org.freedesktop.DBus.Properties")
 
 
@@ -87,16 +90,12 @@ def get_info_mac(return_status = False):
 
 
 def current():
-    try:
-        if platform.system() == "Windows":
-            return get_info_windows()
-        elif platform.system() == "Darwin":
-            return get_info_mac()
-        else:
-            return get_info_linux()
-    except Exception:
-        raise SpotifyNotRunning from None
-        # from None used to suppress error context
+    if platform.system() == "Windows":
+        return get_info_windows()
+    elif platform.system() == "Darwin":
+        return get_info_mac()
+    else:
+        return get_info_linux()
 
 
 def artist():
