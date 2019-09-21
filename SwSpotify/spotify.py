@@ -27,7 +27,7 @@ def get_info_windows(return_status = False):
         artist = ''
         track = windows[0]
 
-    if spotify[0] in ('Spotify Premium', 'Spotify Free'):
+    if windows[0] in ('Spotify Premium', 'Spotify Free'):
         is_playing = False
         artist = ''
         track = ''
@@ -89,13 +89,13 @@ def get_info_mac(return_status = False):
         return a[3], a[1]
 
 
-def current():
+def current(return_status = False):
     if platform.system() == "Windows":
-        return get_info_windows()
+        return get_info_windows(return_status)
     elif platform.system() == "Darwin":
-        return get_info_mac()
+        return get_info_mac(return_status)
     else:
-        return get_info_linux()
+        return get_info_linux(return_status)
 
 
 def artist():
