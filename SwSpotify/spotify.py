@@ -1,4 +1,4 @@
-import platform
+import sys
 from SwSpotify import SpotifyNotRunning
 
 
@@ -20,6 +20,10 @@ def get_info_windows(return_status = False):
         windows.append(old)
     else:
         win32gui.EnumWindows(find_spotify_uwp, windows)
+
+    # If Spotify isn't running the list will be empty
+    if len(windows) == 0:
+        raise SpotifyNotRunning
 
     try:
         artist, track = windows[0].split(" - ", 1)
@@ -49,7 +53,6 @@ def get_info_linux(return_status = False):
     except dbus.exceptions.DBusException:
         raise SpotifyNotRunning
     spotify_properties = dbus.Interface(spotify_bus, "org.freedesktop.DBus.Properties")
-
 
     metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player", "Metadata")
     track = str(metadata['xesam:title'])
@@ -90,9 +93,9 @@ def get_info_mac(return_status = False):
 
 
 def current(return_status = False):
-    if platform.system() == "Windows":
+    if sys.platform.startswith("win"):
         return get_info_windows(return_status)
-    elif platform.system() == "Darwin":
+    elif sys.platform.startswith("darwin"):
         return get_info_mac(return_status)
     else:
         return get_info_linux(return_status)
