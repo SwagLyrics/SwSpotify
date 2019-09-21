@@ -2,18 +2,26 @@ import sys
 from SwSpotify import SpotifyNotRunning
 
 
-def get_info_windows(return_status = False):
+def get_info_windows(return_status=False):
+    """
+    Reads the window titles to get the data.
+
+    Older Spotify versions simply use FindWindow for "SpotifyMainWindow",
+    the newer ones create an EnumHandler and flood the list with
+    Chrome_WidgetWin_0s
+    """
+
     import win32gui
 
     windows = []
 
-    # Older Spotify versions - simply FindWindow for "SpotifyMainWindow"
-    old = win32gui.GetWindowText(win32gui.FindWindow("SpotifyMainWindow", None))
+    old_window = win32gui.FindWindow("SpotifyMainWindow", None)
+    old = win32gui.GetWindowText(old_window)
 
-    # Newer Spotify versions - create an EnumHandler for EnumWindows and flood the list with Chrome_WidgetWin_0s
     def find_spotify_uwp(hwnd, windows):
         text = win32gui.GetWindowText(hwnd)
-        if win32gui.GetClassName(hwnd) == "Chrome_WidgetWin_0" and len(text) > 0:
+        classname = win32gui.GetClassName(hwnd)
+        if classname == "Chrome_WidgetWin_0" and len(text) > 0:
             windows.append(text)
 
     if old:
@@ -25,12 +33,14 @@ def get_info_windows(return_status = False):
     if len(windows) == 0:
         raise SpotifyNotRunning
 
+    # Local songs may only have a title field
     try:
         artist, track = windows[0].split(" - ", 1)
     except ValueError:
         artist = ''
         track = windows[0]
 
+    # The window title is the default one when paused
     if windows[0] in ('Spotify Premium', 'Spotify Free'):
         is_playing = False
         artist = ''
@@ -44,30 +54,41 @@ def get_info_windows(return_status = False):
         return track, artist
 
 
-def get_info_linux(return_status = False):
+def get_info_linux(return_status=False):
+    """
+    Uses the dbus API to get the data.
+    """
+
     import dbus
 
     session_bus = dbus.SessionBus()
     try:
-        spotify_bus = session_bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
+        spotify_bus = session_bus.get_object("org.mpris.MediaPlayer2.spotify",
+                                             "/org/mpris/MediaPlayer2")
     except dbus.exceptions.DBusException:
         raise SpotifyNotRunning
-    spotify_properties = dbus.Interface(spotify_bus, "org.freedesktop.DBus.Properties")
+    spotify_properties = dbus.Interface(spotify_bus,
+                                        "org.freedesktop.DBus.Properties")
 
-    metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player", "Metadata")
+    metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player",
+                                      "Metadata")
     track = str(metadata['xesam:title'])
     artist = str(metadata['xesam:artist'][0])
     if return_status:
-        status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player", "PlaybackStatus"))
+        status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player",
+                                            "PlaybackStatus"))
         is_playing = True if status.lower() == 'playing' else False
         return track, artist, is_playing
     else:
         return track, artist
 
 
-def get_info_mac(return_status = False):
+def get_info_mac(return_status=False):
     """
-    Exceptions aren't thrown inside get_info_mac because it automatically opens Spotify if it's closed.
+    Runs an AppleScript script to get the data.
+
+    Exceptions aren't thrown inside get_info_mac because it automatically
+    opens Spotify if it's closed.
     """
 
     from Foundation import NSAppleScript
@@ -96,7 +117,7 @@ def get_info_mac(return_status = False):
         return a[3], a[1]
 
 
-def current(return_status = False):
+def current(return_status=False):
     if sys.platform.startswith("win"):
         return get_info_windows(return_status)
     elif sys.platform.startswith("darwin"):
@@ -111,3 +132,7 @@ def artist():
 
 def song():
     return current()[0]
+
+
+def is_playing():
+    return current(return_status=True)[2]
