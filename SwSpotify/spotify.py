@@ -2,7 +2,7 @@ import platform
 from SwSpotify import SpotifyNotRunning
 
 
-def get_info_windows():
+def get_info_windows(return_status = False):
     import win32gui
 
     windows = []
@@ -21,38 +21,69 @@ def get_info_windows():
     else:
         win32gui.EnumWindows(find_spotify_uwp, windows)
 
-    artist, track = windows[0].split(" - ", 1)
-    return track, artist
+    try:
+        artist, track = windows[0].split(" - ", 1)
+    except ValueError:
+        artist = ''
+        track = windows[0]
+
+    if spotify[0] in ('Spotify Premium', 'Spotify Free'):
+        is_playing = False
+        artist = ''
+        track = ''
+    else:
+        is_playing = True
+
+    if return_status:
+        return track, artist, is_playing
+    else:
+        return track, artist
 
 
-def get_info_linux():
+def get_info_linux(return_status = False):
     import dbus
 
     session_bus = dbus.SessionBus()
     spotify_bus = session_bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
     spotify_properties = dbus.Interface(spotify_bus, "org.freedesktop.DBus.Properties")
+
+
     metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player", "Metadata")
     track = str(metadata['xesam:title'])
     artist = str(metadata['xesam:artist'][0])
-    return track, artist
+    if return_status:
+        status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player", "PlaybackStatus"))
+        is_playing = True if status.lower() == 'playing' else False
+        return track, artist, is_playing
+    else:
+        return track, artist
 
 
-def get_info_mac():
+def get_info_mac(return_status = False):
     from Foundation import NSAppleScript
+
     apple_script_code = """
     getCurrentlyPlayingTrack()
+
     on getCurrentlyPlayingTrack()
         tell application "Spotify"
+            set isPlaying to player state as string
             set currentArtist to artist of current track as string
             set currentTrack to name of current track as string
             return {currentArtist, currentTrack}
         end tell
     end getCurrentlyPlayingTrack
     """
+
     s = NSAppleScript.alloc().initWithSource_(apple_script_code)
     x = s.executeAndReturnError_(None)
     a = str(x[0]).split('"')
-    return a[3], a[1]
+    is_playing = True if a[5].lower() == 'playing' else False
+
+    if return_status:
+        return a[3], a[1], is_playing
+    else:
+        return a[3], a[1]
 
 
 def current():
