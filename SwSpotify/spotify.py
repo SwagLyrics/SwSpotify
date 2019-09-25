@@ -1,8 +1,8 @@
 import sys
-from SwSpotify import SpotifyNotRunning
+from . import SpotifyClosed, SpotifyPaused
 
 
-def get_info_windows(return_status=False):
+def get_info_windows():
     """
     Reads the window titles to get the data.
 
@@ -31,7 +31,7 @@ def get_info_windows(return_status=False):
 
     # If Spotify isn't running the list will be empty
     if len(windows) == 0:
-        raise SpotifyNotRunning
+        raise SpotifyClosed
 
     # Local songs may only have a title field
     try:
@@ -42,16 +42,9 @@ def get_info_windows(return_status=False):
 
     # The window title is the default one when paused
     if windows[0] in ('Spotify Premium', 'Spotify Free'):
-        is_playing = False
-        artist = ''
-        track = ''
-    else:
-        is_playing = True
+        raise SpotifyPaused
 
-    if return_status:
-        return track, artist, is_playing
-    else:
-        return track, artist
+    return track, artist
 
 
 def get_info_linux(return_status=False):
@@ -66,7 +59,8 @@ def get_info_linux(return_status=False):
         spotify_bus = session_bus.get_object("org.mpris.MediaPlayer2.spotify",
                                              "/org/mpris/MediaPlayer2")
     except dbus.exceptions.DBusException:
-        raise SpotifyNotRunning
+        raise SpotifyClosed
+
     spotify_properties = dbus.Interface(spotify_bus,
                                         "org.freedesktop.DBus.Properties")
 
@@ -74,16 +68,15 @@ def get_info_linux(return_status=False):
                                       "Metadata")
     track = str(metadata['xesam:title'])
     artist = str(metadata['xesam:artist'][0])
-    if return_status:
-        status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player",
-                                            "PlaybackStatus"))
-        is_playing = True if status.lower() == 'playing' else False
-        return track, artist, is_playing
-    else:
-        return track, artist
+    status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player",
+                                        "PlaybackStatus"))
+    if status.lower() != 'playing':
+        raise SpotifyPaused
+
+    return track, artist
 
 
-def get_info_mac(return_status=False):
+def get_info_mac():
     """
     Runs an AppleScript script to get the data.
 
@@ -109,21 +102,19 @@ def get_info_mac(return_status=False):
     s = NSAppleScript.alloc().initWithSource_(apple_script_code)
     x = s.executeAndReturnError_(None)
     a = str(x[0]).split('"')
-    is_playing = True if a[5].lower() == 'playing' else False
+    if a[5].lower != 'playing':
+        raise SpotifyPaused
 
-    if return_status:
-        return a[3], a[1], is_playing
-    else:
-        return a[3], a[1]
+    return a[3], a[1]
 
 
 def current(return_status=False):
     if sys.platform.startswith("win"):
-        return get_info_windows(return_status)
+        return get_info_windows()
     elif sys.platform.startswith("darwin"):
-        return get_info_mac(return_status)
+        return get_info_mac()
     else:
-        return get_info_linux(return_status)
+        return get_info_linux()
 
 
 def artist():
@@ -132,7 +123,3 @@ def artist():
 
 def song():
     return current()[0]
-
-
-def is_playing():
-    return current(return_status=True)[2]
