@@ -10,7 +10,7 @@ class SpotifyNotRunning(Exception):
             message -- explanation of the error
         """
 
-    def __init__(self, message):
+    def __init__(self, message="Spotify appears to be paused or closed at the moment."):
         super().__init__(message)
 
 
