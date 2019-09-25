@@ -1,12 +1,13 @@
-from . import spotify
+from . import spotify, SpotifyPaused, SpotifyClosed
 
 
 def main():
-    title, artist, is_playing = spotify.current(return_status=True)
-    if is_playing:
-        print(f"{title} - {artist}")
+    try:
+        title, artist = spotify.current()
+    except SpotifyNotRunning as e:
+        print(e)
     else:
-        print("Spotify is paused")
+        print(f"{title} - {artist}")
 
 
 if __name__ == '__main__':

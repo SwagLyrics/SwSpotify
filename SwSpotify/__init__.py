@@ -8,9 +8,10 @@ class SpotifyNotRunning(Exception):
         Attributes:
             expression -- input expression in which the error occurred
             message -- explanation of the error
-        """
+    """
 
-    def __init__(self, message="Spotify appears to be paused or closed at the moment."):
+    def __init__(self, message="Spotify appears to be paused or closed"
+                 " at the moment."):
         super().__init__(message)
 
 
