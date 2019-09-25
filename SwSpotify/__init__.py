@@ -3,11 +3,12 @@ __version__ = '1.0.0'
 
 
 class SpotifyNotRunning(Exception):
-    """Base exception raised if Spotify is not running i.e. is closed or paused.
+    """
+    Base exception raised if Spotify is not running i.e. is closed or paused.
 
-        Attributes:
-            expression -- input expression in which the error occurred
-            message -- explanation of the error
+    Attributes:
+        expression -- input expression in which the error occurred
+        message -- explanation of the error
     """
 
     def __init__(self, message="Spotify appears to be paused or closed"
