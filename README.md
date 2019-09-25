@@ -6,7 +6,7 @@
 ![PyPI](https://img.shields.io/pypi/v/swspotify.svg)
 [![Downloads](https://pepy.tech/badge/swspotify)](https://pepy.tech/project/swspotify)
 
-SwSpotify is a python library to get the song and artist of the currently playing song from the Spotify application faster and without using the API. It works on Windows, Linux and macOS. 
+SwSpotify is a Python library to get the song and artist of the currently playing song from the Spotify application faster and without using the API. It works on Windows, Linux and macOS. 
 
 The original repository was [spotilib](https://github.com/XanderMJ/spotilib) which worked just for Windows and hasn't been updated since a long while when it broke on account of Spotify updating their application.
 
@@ -15,36 +15,43 @@ Originally made for use in [SwagLyrics for Spotify](https://github.com/SwagLyric
 ## Installation
 
 Requires Python3. Use pip or pip3 depending on your installation.
-```
+```shell
 pip install SwSpotify
 ```
 
 ## Usage
 
 Use it in your project by importing it as:
+
 ```pydocstring
 from SwSpotify import spotify
 ```
+
 Then you can access the song and artist as:
+
 ```pydocstring
 >>> spotify.song()
 'Hello'
 >>> spotify.artist()
 'Adele'
 ```
+
 Since mostly song and artist are used in conjunction, there is a `current()` method as well.
+
 ```pydocstring
 >>> spotify.current()
 ('Hello', 'Adele')
 ```
+
 This allows you to access song and artist by tuple unpacking as:
+
 ```pydocstring
 >>> song, artist = spotify.current()
 ```
 
 A `SpotifyNotRunning` Exception is raised if Spotify is closed or paused. `SpotifyClosed` and `SpotifyPaused` inherit from `SpotifyNotRunning`, meaning that you can catch both at the same time:
 
-```
+```python
 try:
     title, artist = spotify.current()
 except SpotifyNotRunning as e:
