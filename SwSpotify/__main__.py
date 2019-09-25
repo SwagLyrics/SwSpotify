@@ -1,4 +1,4 @@
-from . import spotify, SpotifyPaused, SpotifyClosed
+from . import spotify, SpotifyNotRunning
 
 
 def main():
