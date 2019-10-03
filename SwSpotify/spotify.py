@@ -47,24 +47,30 @@ def get_info_windows():
     return track, artist
 
 
-def get_info_linux(return_status=False):
+def get_info_linux():
     """
-    Uses the dbus API to get the data.
+    Uses the dbus API to get the data. The bus and other variables are only generated the first time the function
+    is called, simulating class properties.
     """
 
     import dbus
 
-    session_bus = dbus.SessionBus()
+    if not hasattr(get_info_linux, 'session_bus'):
+        get_info_linux.session_bus = dbus.SessionBus()
     try:
-        spotify_bus = session_bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
+        spotify_bus = get_info_linux.session_bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
+        spotify_properties = dbus.Interface(spotify_bus, "org.freedesktop.DBus.Properties")
+        metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player", "Metadata")
     except dbus.exceptions.DBusException:
         raise SpotifyClosed
 
-    spotify_properties = dbus.Interface(spotify_bus, "org.freedesktop.DBus.Properties")
-
-    metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player", "Metadata")
     track = str(metadata['xesam:title'])
-    artist = str(metadata['xesam:artist'][0])
+    # When this function is called and Spotify hasn't finished setting up the dbus properties, the artist field
+    # is empty. This counts as if it weren't open because no data is loaded.
+    try:
+        artist = str(metadata['xesam:artist'][0])
+    except IndexError:
+        raise SpotifyClosed
     status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player", "PlaybackStatus"))
     if status.lower() != 'playing':
         raise SpotifyPaused
@@ -104,7 +110,7 @@ def get_info_mac():
     return a[3], a[1]
 
 
-def current(return_status=False):
+def current():
     if sys.platform.startswith("win"):
         return get_info_windows()
     elif sys.platform.startswith("darwin"):
