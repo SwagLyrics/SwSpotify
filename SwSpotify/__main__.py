@@ -1,4 +1,4 @@
-from . import spotify, SpotifyNotRunning
+from SwSpotify import spotify, SpotifyNotRunning
 
 
 def main():

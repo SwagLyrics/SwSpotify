@@ -1,5 +1,5 @@
 import sys
-from . import SpotifyClosed, SpotifyPaused
+from SwSpotify import SpotifyClosed, SpotifyPaused
 
 
 def get_info_windows():
@@ -56,20 +56,16 @@ def get_info_linux(return_status=False):
 
     session_bus = dbus.SessionBus()
     try:
-        spotify_bus = session_bus.get_object("org.mpris.MediaPlayer2.spotify",
-                                             "/org/mpris/MediaPlayer2")
+        spotify_bus = session_bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
     except dbus.exceptions.DBusException:
         raise SpotifyClosed
 
-    spotify_properties = dbus.Interface(spotify_bus,
-                                        "org.freedesktop.DBus.Properties")
+    spotify_properties = dbus.Interface(spotify_bus, "org.freedesktop.DBus.Properties")
 
-    metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player",
-                                      "Metadata")
+    metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player", "Metadata")
     track = str(metadata['xesam:title'])
     artist = str(metadata['xesam:artist'][0])
-    status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player",
-                                        "PlaybackStatus"))
+    status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player", "PlaybackStatus"))
     if status.lower() != 'playing':
         raise SpotifyPaused
 
