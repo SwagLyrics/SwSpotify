@@ -47,7 +47,7 @@ def get_info_windows():
     return track, artist
 
 
-def get_info_linux(return_status=False):
+def get_info_linux():
     """
     Uses the dbus API to get the data.
     """
@@ -104,7 +104,7 @@ def get_info_mac():
     return a[3], a[1]
 
 
-def current(return_status=False):
+def current():
     if sys.platform.startswith("win"):
         return get_info_windows()
     elif sys.platform.startswith("darwin"):
