@@ -49,8 +49,7 @@ def get_info_windows():
 
 def get_info_linux():
     """
-    Uses the dbus API to get the data. The bus and other variables are only generated the first time the function
-    is called, simulating class properties.
+    Uses the dbus API to get the data. The bus is only generated the first time, simulating a class property.
     """
 
     import dbus
