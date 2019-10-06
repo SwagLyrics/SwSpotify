@@ -14,7 +14,6 @@ class LinuxTests(unittest.TestCase):
     """
 
     def setup(self):
-        from dbus.exceptions import DBusException
         pass
 
     @patch('SwSpotify.spotify.get_info_linux')
@@ -38,6 +37,7 @@ class LinuxTests(unittest.TestCase):
         """
         test that test artist function raises SpotifyNotRunning when the get_info_linux function will return an error
         """
+        from dbus.exceptions import DBusException
         mock.side_effect = DBusException
         x = artist
         self.assertRaises(SpotifyNotRunning, x)
@@ -47,6 +47,7 @@ class LinuxTests(unittest.TestCase):
         """
         test that test song function raises SpotifyNotRunning when the get_info_linux function will return an error
         """
+        from dbus.exceptions import DBusException
         mock.side_effect = DBusException
         x = song
         self.assertRaises(SpotifyNotRunning, x)
