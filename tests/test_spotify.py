@@ -14,6 +14,7 @@ class LinuxTests(unittest.TestCase):
     """
 
     def setup(self):
+        from dbus.exceptions import DBusException
         pass
 
     @patch('SwSpotify.spotify.get_info_linux')
@@ -32,19 +33,21 @@ class LinuxTests(unittest.TestCase):
         x = song()
         self.assertTrue(mock.called)
 
-    @patch('SwSpotify.spotify.get_info_linux', side_effect=ValueError)
+    @patch('SwSpotify.spotify.get_info_linux')
     def test_that_artist_function_returns_None_when_error(self, mock):
         """
         test that test artist function raises SpotifyNotRunning when the get_info_linux function will return an error
         """
+        mock.side_effect = DbusException
         x = artist
         self.assertRaises(SpotifyNotRunning, x)
 
-    @patch('SwSpotify.spotify.get_info_linux', side_effect=ValueError)
+    @patch('SwSpotify.spotify.get_info_linux')
     def test_that_song_function_returns_None_when_error(self, mock):
         """
         test that test song function raises SpotifyNotRunning when the get_info_linux function will return an error
         """
+        mock.side_effect = DbusException
         x = song
         self.assertRaises(SpotifyNotRunning, x)
 
