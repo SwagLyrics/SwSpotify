@@ -17,7 +17,11 @@ setuptools.setup(
     install_requires=['pywin32; platform_system=="Windows"',
                       'pyobjc; platform_system=="Darwin"'],
     extras_require={
-        'dev': ['mock']
+        'dev': [
+            'mock',
+            'pytest',
+            'pytest-cov'
+        ]
     },
     keywords='spotify swaglyrics python app',
     classifiers=[
