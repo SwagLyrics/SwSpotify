@@ -11,11 +11,15 @@ matrix:
   - os: osx
     language: shell
     osx_image: xcode11
+before_install:
+- sudo apt-get update
+- sudo apt-get -y install python3-pip libdbus-glib-1-dev libcairo2-dev
+     libglib2.0-dev libgirepository1.0-dev gir1.2-gtk-3.0
+- sudo pip3 install --upgrade pip
+- pip3 install pygobject
 install:
 - pip3 install --upgrade pip
-- pip3 install .
-- pip3 install -r dev-requirements.txt
-- sudo apt-get install -y python-dbus
+- pip3 install .[dev]
 script:
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pytest --cov-config=.coveragerc --cov=SwSpotify
   tests/test_spotify.py::LinuxTests; fi
