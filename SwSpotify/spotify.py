@@ -105,7 +105,7 @@ def get_info_mac():
         a = str(x[0]).split('"')
         if a[5].lower != 'playing':
             raise SpotifyPaused
-    except ValueError:
+    except Exception:
         raise SpotifyNotRunning
 
     return a[3], a[1]

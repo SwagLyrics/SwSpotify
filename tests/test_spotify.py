@@ -170,16 +170,14 @@ class DarwinTests(unittest.TestCase):
         x = song()
         self.assertTrue(mock.called)
 
-    @patch('SwSpotify.spotify.get_info_mac', side_effect=ValueError)
-    def test_that_artist_function_returns_None_when_error(self, mock):
+    def test_that_artist_function_returns_None_when_error(self):
         """
         test that test artist function returns None when the get_info_mac function will return an error
         """
         x = artist
         self.assertRaises(SpotifyNotRunning, x)
 
-    @patch('SwSpotify.spotify.get_info_mac', side_effect=ValueError)
-    def test_that_song_function_returns_None_when_error(self, mock):
+    def test_that_song_function_returns_None_when_error(self):
         """
         test that test song function returns None when the get_info_mac function will return an error
         """
