@@ -12,10 +12,10 @@ matrix:
     language: shell
     osx_image: xcode11
 before_install:
-- sudo apt-get update
-- sudo apt-get -y install python3-pip libdbus-glib-1-dev libcairo2-dev
-     libglib2.0-dev libgirepository1.0-dev gir1.2-gtk-3.0
-- sudo pip3 install --upgrade pip
+- if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get update; fi
+- if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo apt-get -y install python3-pip libdbus-glib-1-dev libcairo2-dev
+     libglib2.0-dev libgirepository1.0-dev gir1.2-gtk-3.0; fi
+- if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo pip3 install --upgrade pip; fi
 install:
 - pip3 install --upgrade pip
 - pip3 install .[dev]
