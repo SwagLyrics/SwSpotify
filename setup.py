@@ -15,7 +15,8 @@ setuptools.setup(
     url="https://github.com/SwagLyrics/SwSpotify",
     packages=['SwSpotify'],
     install_requires=['pywin32; platform_system=="Windows"',
-                      'pyobjc; platform_system=="Darwin"'],
+                      'pyobjc; platform_system=="Darwin"',
+                      'dbus-python; platform_system=="Linux"'],
     extras_require={
         'dev': [
             'mock',

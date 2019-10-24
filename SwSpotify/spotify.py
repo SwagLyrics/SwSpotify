@@ -1,5 +1,5 @@
 import sys
-from SwSpotify import SpotifyClosed, SpotifyPaused
+from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning
 
 
 def get_info_windows():
@@ -99,11 +99,14 @@ def get_info_mac():
     end getCurrentlyPlayingTrack
     """
 
-    s = NSAppleScript.alloc().initWithSource_(apple_script_code)
-    x = s.executeAndReturnError_(None)
-    a = str(x[0]).split('"')
-    if a[5].lower != 'playing':
-        raise SpotifyPaused
+    try:
+        s = NSAppleScript.alloc().initWithSource_(apple_script_code)
+        x = s.executeAndReturnError_(None)
+        a = str(x[0]).split('"')
+        if a[5].lower != 'playing':
+            raise SpotifyPaused
+    except Exception:
+        raise SpotifyNotRunning
 
     return a[3], a[1]
 
