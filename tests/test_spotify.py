@@ -3,7 +3,7 @@ Contains unit tests for spotify.py
 """
 import unittest
 from SwSpotify.spotify import song, artist, get_info_windows
-from SwSpotify import SpotifyNotRunning
+from SwSpotify import SpotifyNotRunning, SpotifyPaused
 from mock import patch
 import platform
 
@@ -89,19 +89,33 @@ class WindowsTests(unittest.TestCase):
         x = song()
         self.assertTrue(mock.called)
 
-    @patch('SwSpotify.spotify.get_info_windows', side_effect=ValueError)
-    def test_that_artist_function_returns_None_when_error(self, mock):
+    # @patch('SwSpotify.spotify.get_info_windows', side_effect=ValueError)
+    # def test_that_artist_function_returns_None_when_error(self, mock):
+    #     """
+    #     test that test artist function returns None when the get_info_windows function will return an error
+    #     """
+    #     self.assertRaises(SpotifyNotRunning, artist)
+
+    @patch('win32gui.GetWindowText', return_value='Spotify Free')
+    def test_that_artist_function_raises_exception_when_spotify_paused(self, mock_window):
         """
-        test that test artist function returns None when the get_info_windows function will return an error
+        test that artist raise SpotifyPaused
         """
         self.assertRaises(SpotifyNotRunning, artist)
 
-    @patch('SwSpotify.spotify.get_info_windows', side_effect=ValueError)
-    def test_that_song_function_returns_None_when_error(self, mock):
+    # @patch('SwSpotify.spotify.get_info_windows', side_effect=ValueError)
+    # def test_that_song_function_returns_None_when_error(self, mock):
+    #     """
+    #     test that test song function returns None when the get_info_windows function will return an error
+    #     """
+    #     self.assertRaises(SpotifyNotRunning, song)
+
+    @patch('win32gui.GetWindowText', return_value='Spotify Free')
+    def test_that_song_function_raises_exception_when_spotify_paused(self, mock_window):
         """
-        test that test song function returns None when the get_info_windows function will return an error
+        test that song can raise SpotifyPaused
         """
-        self.assertRaises(SpotifyNotRunning, song)
+        self.assertRaises(SpotifyPaused, song)
 
     @patch('win32gui.GetWindowText', return_value='Shawn Mendes - Youth (feat. Khalid)')
     def test_that_get_info_windows_works_for_old_spotify(self, mock_window):
