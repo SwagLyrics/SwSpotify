@@ -32,7 +32,7 @@ class LinuxTests(unittest.TestCase):
         x = song()
         self.assertTrue(mock.called)
 
-    @patch('SwSpotify.spotify.get_info_linux')
+    @patch('dbus.Interface')
     def test_that_artist_function_returns_None_when_error(self, mock):
         """
         test that test artist function raises SpotifyNotRunning when the get_info_linux function will return an error
@@ -42,7 +42,7 @@ class LinuxTests(unittest.TestCase):
         x = artist
         self.assertRaises(SpotifyNotRunning, x)
 
-    @patch('SwSpotify.spotify.get_info_linux')
+    @patch('dbus.Interface')
     def test_that_song_function_returns_None_when_error(self, mock):
         """
         test that test song function raises SpotifyNotRunning when the get_info_linux function will return an error
