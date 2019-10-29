@@ -1,5 +1,5 @@
 import sys
-from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning
+from SwSpotify import SpotifyClosed, SpotifyPaused
 
 
 def get_info_windows():
@@ -106,8 +106,8 @@ def get_info_mac():
         a = str(x[0]).split('"')
         if a[5].lower != 'playing':
             raise SpotifyPaused
-    except Exception:
-        raise SpotifyNotRunning
+    except IndexError:
+        raise SpotifyClosed
 
     return a[3], a[1]
 
