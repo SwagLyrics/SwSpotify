@@ -69,7 +69,7 @@ def get_info_linux():
     try:
         artist = str(metadata['xesam:artist'][0])
     except IndexError:
-        raise SpotifyClosed
+        raise SpotifyClosed from None
     status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player", "PlaybackStatus"))
     if status.lower() != 'playing':
         raise SpotifyPaused
@@ -107,7 +107,7 @@ def get_info_mac():
         if a[5].lower != 'playing':
             raise SpotifyPaused
     except IndexError:
-        raise SpotifyClosed
+        raise SpotifyClosed from None
 
     return a[3], a[1]
 

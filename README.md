@@ -14,11 +14,13 @@ Originally made for use in [SwagLyrics for Spotify](https://github.com/SwagLyric
 
 ## Installation
 
-Requires Python3. Use pip or pip3 depending on your installation.
+Requires Python3. Use pip or pip3 depending on your installation. You might want to use the `--user` flag on Linux to 
+avoid using pip as root.
 ```shell
 pip install SwSpotify
 ```
-
+For linux you need `dbus`, if it fails to install try `apt install libdbus-glib-1-dev libcairo2-dev` first to resolve
+dbus dependencies.
 ## Usage
 
 Use it in your project by importing it as:
@@ -59,7 +61,9 @@ except SpotifyNotRunning as e:
 else:
     print(f"{title} - {artist}")
 ```
+In case Spotify is closed or paused, that will automatically be reflected in the value of `e`.
 
+For finer control you can catch `SpotifyClosed` and `SpotifyPaused` separately.
 ## Compiling SwSpotify for Development
 
 - Clone the repo by `git clone https://github.com/SwagLyrics/SwSpotify.git` or use ssh.
