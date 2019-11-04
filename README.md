@@ -19,8 +19,7 @@ avoid using pip as root.
 ```shell
 pip install SwSpotify
 ```
-For linux you need `dbus`, if it fails to install try `apt install libdbus-glib-1-dev libcairo2-dev` first to resolve
-dbus dependencies.
+For linux you need `dbus` which is usually pre-installed.
 ## Usage
 
 Use it in your project by importing it as:
