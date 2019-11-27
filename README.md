@@ -24,13 +24,13 @@ For linux you need `dbus` which is usually pre-installed.
 
 Use it in your project by importing it as:
 
-```pydocstring
+```python
 from SwSpotify import spotify
 ```
 
 Then you can access the song and artist as:
 
-```pydocstring
+```python
 >>> spotify.song()
 'Hello'
 >>> spotify.artist()
@@ -39,14 +39,14 @@ Then you can access the song and artist as:
 
 Since mostly song and artist are used in conjunction, there is a `current()` method as well.
 
-```pydocstring
+```python
 >>> spotify.current()
 ('Hello', 'Adele')
 ```
 
 This allows you to access song and artist by tuple unpacking as:
 
-```pydocstring
+```python
 >>> song, artist = spotify.current()
 ```
 
