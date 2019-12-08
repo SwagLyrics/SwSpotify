@@ -1,0 +1,14 @@
+
+\.idea/
+
+SwSpotify/__pycache__/
+
+dist/
+
+build/
+
+SwSpotify\.egg-info/
+
+tests/__pycache__/
+
+\.coverage
