@@ -7,16 +7,16 @@ const alert_str = "[SwagLyrics for Spotify]";
 console.log(alert_str, "initializing (available: " + (typeof window.Notification != 'undefined') + ")");
 
 const selectors = {
-  albumArt:
-    '#main .Root__now-playing-bar .now-playing-bar__left .cover-art-image.cover-art-image-loaded',
-  trackName: '.track-info__name a',
-  artistName: '.track-info__artists a',
-  playPauseBtn:
-    '#main .Root__now-playing-bar .now-playing-bar__center .player-controls__buttons button:nth-child(3)',
-  prevBtn:
-    '#main .Root__now-playing-bar .now-playing-bar__center .player-controls__buttons button:nth-child(2)',
-  nextBtn:
-    '#main .Root__now-playing-bar .now-playing-bar__center .player-controls__buttons button:nth-child(4)',
+	albumArt:
+		'#main .Root__now-playing-bar .now-playing-bar__left .cover-art-image.cover-art-image-loaded',
+	trackName: '.track-info__name a',
+	artistName: '.track-info__artists a',
+	playPauseBtn:
+		'#main .Root__now-playing-bar .now-playing-bar__center .player-controls__buttons button:nth-child(3)',
+	prevBtn:
+		'#main .Root__now-playing-bar .now-playing-bar__center .player-controls__buttons button:nth-child(2)',
+	nextBtn:
+		'#main .Root__now-playing-bar .now-playing-bar__center .player-controls__buttons button:nth-child(4)',
 };
 var checks = {
   art: function() {
