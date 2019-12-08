@@ -1,4 +1,8 @@
 import sys
+import os
+import time
+import tempfile
+import json
 from SwSpotify import SpotifyClosed, SpotifyPaused
 
 
@@ -111,14 +115,41 @@ def get_info_mac():
 
     return a[3], a[1]
 
+def get_info_web():
+    # Paths for the files used for commucation with the Chrome extension
+    get_data = os.path.join(tempfile.gettempdir(), "get_data")
+    last_played = os.path.join(tempfile.gettempdir(), "last_played")
+    # Update file to trigger the Chrome extension for retrieving data
+    with open(get_data, "w") as f:
+        f.write("get_data")
+
+    # If the file for retrieving data doesn't exists, create and leave it blank
+    if not os.path.exists(last_played):
+        with open(last_played, 'w'): pass
+
+    # Wait till the last_played data changes and return its value, 0.5 seconds for timeout
+    last_changed = os.path.getmtime(last_played)
+    t = time.time()
+    while time.time() - t < 0.5:
+        if os.path.getmtime(last_played) != last_changed:
+            with open(last_played, "r") as f:
+                result = json.loads(f.read())
+                if result:
+                    return result["name"], result["artist"]
+    else:
+        raise SpotifyClosed
 
 def current():
-    if sys.platform.startswith("win"):
-        return get_info_windows()
-    elif sys.platform.startswith("darwin"):
-        return get_info_mac()
-    else:
-        return get_info_linux()
+    # First try native approaches, then try using the web approach
+    try:
+        if sys.platform.startswith("win"):
+            return get_info_windows()
+        elif sys.platform.startswith("darwin"):
+            return get_info_mac()
+        else:
+            return get_info_linux()
+    except (SpotifyClosed, SpotifyPaused):
+        return get_info_web()
 
 
 def artist():
