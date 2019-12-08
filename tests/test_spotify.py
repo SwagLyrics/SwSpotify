@@ -185,5 +185,44 @@ class DarwinTests(unittest.TestCase):
         self.assertRaises(SpotifyNotRunning, x)
 
 
+class ChromeTests(unittest.TestCase):
+    """
+    Unit tests for Chrome (with extention)
+    """
+
+    def setup(self):
+        pass
+
+    @patch('SwSpotify.spotify.get_info_chrome')
+    def test_that_artist_function_calls_get_info(self, mock):
+        """
+        test that test artist function calls get_info_mac function
+        """
+        x = artist()
+        self.assertTrue(mock.called)
+
+    @patch('SwSpotify.spotify.get_info_chrome')
+    def test_that_song_function_calls_get_info(self, mock):
+        """
+        test that test song function calls get_info_mac function
+        """
+        x = song()
+        self.assertTrue(mock.called)
+
+    def test_that_artist_function_returns_None_when_error(self):
+        """
+        test that test artist function returns None when the get_info_mac function will return an error
+        """
+        x = artist
+        self.assertRaises(SpotifyNotRunning, x)
+
+    def test_that_song_function_returns_None_when_error(self):
+        """
+        test that test song function returns None when the get_info_mac function will return an error
+        """
+        x = song
+        self.assertRaises(SpotifyNotRunning, x)
+
+
 if __name__ == '__main__':
     unittest.main()
