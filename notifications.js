@@ -1,9 +1,11 @@
-var alert_str = "[SwagLyrics for Spotify]";
+const notification_timeout = 4000;
+let isFirst = true;
+const interval = 1000;
+const hash = hex_md5("temp");
+
+const alert_str = "[SwagLyrics for Spotify]";
 console.log(alert_str, "initializing (available: " + (typeof window.Notification != 'undefined') + ")");
-var stay = 4000;
-var isFirst=true;
-var interval = 1000;
-var hash = hex_md5("temp");
+
 const selectors = {
   albumArt:
     '#main .Root__now-playing-bar .now-playing-bar__left .cover-art-image.cover-art-image-loaded',
@@ -97,7 +99,6 @@ if(isFirst){
     }, interval);
   });
 }
-
 
 
 
