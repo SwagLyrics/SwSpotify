@@ -1,5 +1,7 @@
 import sys
+import os
 from SwSpotify import SpotifyClosed, SpotifyPaused
+from . import web_player
 
 
 def get_info_windows():
@@ -112,13 +114,28 @@ def get_info_mac():
     return a[3], a[1]
 
 
+def get_info_chrome():
+    """
+    Connects to the server run by the extension to get data
+    """
+    sys.stderr = open(os.devnull, "w")
+    result = web_player.run()
+    sys.stderr = sys.__stderr__
+    if result is None:
+        raise SpotifyClosed
+    return result
+
+
 def current():
-    if sys.platform.startswith("win"):
-        return get_info_windows()
-    elif sys.platform.startswith("darwin"):
-        return get_info_mac()
-    else:
-        return get_info_linux()
+    try:
+        if sys.platform.startswith("win"):
+            return get_info_windows()
+        elif sys.platform.startswith("darwin"):
+            return get_info_mac()
+        else:
+            return get_info_linux()
+    except SpotifyClosed:
+        return get_info_chrome()
 
 
 def artist():
