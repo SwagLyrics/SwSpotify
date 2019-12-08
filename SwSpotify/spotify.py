@@ -127,15 +127,21 @@ def get_info_web():
     if not os.path.exists(last_played):
         with open(last_played, 'w'): pass
 
-    # Wait till the last_played data changes and return its value, 0.5 seconds for timeout
+    # Wait till the last_played data changes and return its value, 0.1 seconds for timeout
     last_changed = os.path.getmtime(last_played)
     t = time.time()
-    while time.time() - t < 0.5:
+    while time.time() - t < 0.1:
         if os.path.getmtime(last_played) != last_changed:
-            with open(last_played, "r") as f:
-                result = json.loads(f.read())
-                if result:
-                    return result["name"], result["artist"]
+            while True:
+                with open(last_played, "r") as f:
+                    try:
+                        result = json.loads(f.read())
+                        break
+                    except json.JSONDecodeError:
+                        pass
+
+            if result:
+                return result["name"], result["artist"]
     else:
         raise SpotifyClosed
 
