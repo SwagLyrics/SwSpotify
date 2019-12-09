@@ -116,14 +116,6 @@ def get_info_mac():
     return a[3], a[1]
 
 def get_info_web():
-    # Paths for the files used for commucation with the Chrome extension
-    get_data = os.path.join(tempfile.gettempdir(), "get_data")
-    last_played = os.path.join(tempfile.gettempdir(), "last_played")
-    # Update file to trigger the Chrome extension for retrieving data
-    with open(get_data, "w") as f:
-        f.write("get_data")
-
-def get_info_web():
     from web_data import WebData
     import web_server
     subprocess.Popen([sys.executable, "server_shutdown.py"])
