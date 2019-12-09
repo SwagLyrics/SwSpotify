@@ -1,9 +1,5 @@
 import subprocess
 import sys
-import os
-import time
-import tempfile
-import json
 from SwSpotify import SpotifyClosed, SpotifyPaused
 
 
@@ -127,17 +123,6 @@ def get_info_web():
     else:
         return WebData.track, WebData.artist
 
-def current():
-    # First try native approaches, then try using the web approach
-    try:
-        if sys.platform.startswith("win"):
-            return get_info_windows()
-        elif sys.platform.startswith("darwin"):
-            return get_info_mac()
-        else:
-            return get_info_linux()
-    except (SpotifyClosed, SpotifyPaused):
-        return get_info_web()
 
 def current():
     try:

@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from web_data import WebData
-import logging, time
+import logging
 
 
 app = Flask(__name__)
@@ -16,7 +16,6 @@ def run():
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)
     start()
-
 
 
 @app.route('/ping', methods=['GET'])
