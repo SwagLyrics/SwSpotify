@@ -1,10 +1,11 @@
-import threading, requests
+import threading
+import requests
 
 
 def shutdown_post():
     try:
         requests.post("http://127.0.0.1:5042/shutdown")
-    except:
+    except ConnectionError:
         pass
 
 

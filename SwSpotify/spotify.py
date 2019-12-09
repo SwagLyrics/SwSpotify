@@ -111,6 +111,7 @@ def get_info_mac():
 
     return a[3], a[1]
 
+
 def get_info_web():
     from web_data import WebData
     import web_server
