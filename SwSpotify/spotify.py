@@ -1,5 +1,9 @@
 import subprocess
 import sys
+import os
+import time
+import tempfile
+import json
 from SwSpotify import SpotifyClosed, SpotifyPaused
 
 
@@ -111,6 +115,13 @@ def get_info_mac():
 
     return a[3], a[1]
 
+def get_info_web():
+    # Paths for the files used for commucation with the Chrome extension
+    get_data = os.path.join(tempfile.gettempdir(), "get_data")
+    last_played = os.path.join(tempfile.gettempdir(), "last_played")
+    # Update file to trigger the Chrome extension for retrieving data
+    with open(get_data, "w") as f:
+        f.write("get_data")
 
 def get_info_web():
     from web_data import WebData
@@ -124,6 +135,17 @@ def get_info_web():
     else:
         return WebData.track, WebData.artist
 
+def current():
+    # First try native approaches, then try using the web approach
+    try:
+        if sys.platform.startswith("win"):
+            return get_info_windows()
+        elif sys.platform.startswith("darwin"):
+            return get_info_mac()
+        else:
+            return get_info_linux()
+    except (SpotifyClosed, SpotifyPaused):
+        return get_info_web()
 
 def current():
     try:
