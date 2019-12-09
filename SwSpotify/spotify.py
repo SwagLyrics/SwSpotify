@@ -1,3 +1,4 @@
+import subprocess
 import sys
 from SwSpotify import SpotifyClosed, SpotifyPaused
 
@@ -53,7 +54,6 @@ def get_info_linux():
     """
 
     import dbus
-
     if not hasattr(get_info_linux, 'session_bus'):
         get_info_linux.session_bus = dbus.SessionBus()
     try:
@@ -112,13 +112,29 @@ def get_info_mac():
     return a[3], a[1]
 
 
-def current():
-    if sys.platform.startswith("win"):
-        return get_info_windows()
-    elif sys.platform.startswith("darwin"):
-        return get_info_mac()
+def get_info_web():
+    from web_data import WebData
+    import web_server
+    subprocess.Popen([sys.executable, "server_shutdown.py"])
+    web_server.run()
+    if WebData.track == "":
+        raise SpotifyClosed
+    elif WebData.playState == "Play":
+        raise SpotifyPaused
     else:
-        return get_info_linux()
+        return WebData.track, WebData.artist
+
+
+def current():
+    try:
+        if sys.platform.startswith("win"):
+            return get_info_windows()
+        elif sys.platform.startswith("darwin"):
+            return get_info_mac()
+        else:
+            return get_info_linux()
+    except(SpotifyClosed, SpotifyPaused):
+        return get_info_web()
 
 
 def artist():
