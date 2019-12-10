@@ -185,5 +185,18 @@ class DarwinTests(unittest.TestCase):
         self.assertRaises(SpotifyNotRunning, x)
 
 
+class WebPlayerTests(unittest.TestCase):
+    """
+    Unit tests for web player
+    """
+    def setUp(self):
+        pass
+
+    @patch('SwSpotify.spotify.get_info_web')
+    def test_that_artist_function_calls_get_info(self, mock):
+        x = artist()
+        self.assertTrue(mock.called)
+
+
 if __name__ == '__main__':
     unittest.main()
