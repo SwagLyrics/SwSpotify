@@ -125,8 +125,7 @@ def get_info_web():
     if not result:
         raise SpotifyClosed
 
-    track, artist = result
-    return track, artist
+    return result['title'], result['artist']
 
 
 def current():
