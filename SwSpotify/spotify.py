@@ -3,7 +3,7 @@ import os
 import time
 import tempfile
 import json
-from SwSpotify import SpotifyClosed, SpotifyPaused
+from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning
 
 
 def get_info_windows():
@@ -156,8 +156,11 @@ def current():
             return get_info_mac()
         else:
             return get_info_linux()
-    except SpotifyNotRunning:
-        return get_info_web()
+    except SpotifyNotRunning as e:
+        try:
+            return get_info_web()
+        except SpotifyClosed:
+            raise e
 
 
 def artist():
