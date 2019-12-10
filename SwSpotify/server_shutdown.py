@@ -9,4 +9,5 @@ def shutdown_post():
         pass
 
 
-threading.Timer(2, shutdown_post).run()
+# first parameter is time before executing post
+threading.Timer(1.3, shutdown_post).run()
