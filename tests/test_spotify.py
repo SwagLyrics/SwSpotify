@@ -242,26 +242,13 @@ class WebTests(unittest.TestCase):
 
         self.assertTrue(os.path.exists(last_played) and os.path.exists(get_data))
 
-    @patch("os.path.getmtime")
-    @patch("json.loads")
+    @patch("os.path.getmtime", return_value=float('nan'))
+    @patch("json.loads", return_value={"artist":"Ceza", "name":"Suspus"})
     def test_that_get_info_web_works(self, gettime, jsonload):
         """
         test that test get_info_web function works with the files created
         """
-        def test_web():
-            try:
-                return get_info_web()
-            except SpotifyNotRunning:
-                pass
-
-        que = queue.Queue()
-        t = threading.Thread(target=lambda q: q.put(test_web()), args=(que))
-        t.start()
-        t.join()
-        time.sleep(0.03)
-        gettime.return_value = float("inf")
-        jsonload.return_value = {"artist":"Ceza", "name":"Suspus"}
-        self.assertTrue(que.get()==["Suspus", "Ceza"])
+        self.assertTrue(get_info_web()==("Suspus", "Ceza"))
 
 if __name__ == '__main__':
     unittest.main()

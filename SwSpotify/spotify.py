@@ -116,7 +116,7 @@ def get_info_mac():
     return a[3], a[1]
 
 
-def get_info_web():
+def get_info_web(timeout=0.1):
     # Paths for the files used for commucation with the Chrome extension
     get_data = os.path.join(tempfile.gettempdir(), "get_data")
     last_played = os.path.join(tempfile.gettempdir(), "last_played")
@@ -132,7 +132,7 @@ def get_info_web():
     # Wait till the last_played data changes and return its value, 0.1 seconds for timeout
     last_changed = os.path.getmtime(last_played)
     t = time.time()
-    while time.time() - t < 0.1:
+    while time.time() - t < timeout:
         if os.path.getmtime(last_played) != last_changed:
             while True:
                 with open(last_played, "r", encoding="utf-8") as f:
