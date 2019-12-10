@@ -2,10 +2,11 @@
 Contains unit tests for spotify.py
 """
 import unittest
-from SwSpotify.spotify import song, artist, get_info_windows
+from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
 from SwSpotify import SpotifyNotRunning, SpotifyPaused
 from mock import patch
 import platform
+import requests
 
 
 class LinuxTests(unittest.TestCase):
@@ -194,8 +195,33 @@ class WebPlayerTests(unittest.TestCase):
 
     @patch('SwSpotify.spotify.get_info_web')
     def test_that_artist_function_calls_get_info(self, mock):
+        """
+        test that test artist function calls get_info_web function
+        """
         x = artist()
         self.assertTrue(mock.called)
+
+    @patch('SwSpotify.spotify.get_info_web')
+    def test_that_song_function_calls_get_info(self, mock):
+        """
+        test that test artist function calls get_info_web function
+        """
+        x = song()
+        self.assertTrue(mock.called)
+
+    def test_that_artist_function_returns_None_when_error(self):
+        """
+        test that test song function returns None when the get_info_web function will return an error
+        """
+        x = artist
+        self.assertRaises(expected_exception=SpotifyNotRunning, callable=x)
+
+    def test_that_song_function_returns_None_when_error(self):
+        """
+        test that test song function returns None when the get_info_web function will return an error
+        """
+        x = song
+        self.assertRaises(expected_exception=SpotifyNotRunning, callable=x)
 
 
 if __name__ == '__main__':
