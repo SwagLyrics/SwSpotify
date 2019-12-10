@@ -3,7 +3,7 @@ import os
 import time
 import tempfile
 import json
-from SwSpotify import SpotifyClosed, SpotifyPaused
+from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning
 
 
 def get_info_windows():
