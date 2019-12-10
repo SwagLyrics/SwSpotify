@@ -1,7 +1,7 @@
 import sys
 import os
 from SwSpotify import SpotifyClosed, SpotifyPaused
-from . import web_player
+from . import spotify_web
 
 
 def get_info_windows():
@@ -114,16 +114,19 @@ def get_info_mac():
     return a[3], a[1]
 
 
-def get_info_chrome():
+def get_info_web():
     """
-    Connects to the server run by the extension to get data
+    Uses chrome extension to get the data
     """
     sys.stderr = open(os.devnull, "w")
-    result = web_player.run()
+    result = spotify_web.run()
     sys.stderr = sys.__stderr__
-    if result is None:
+
+    if not result:
         raise SpotifyClosed
-    return result
+
+    track, artist = result
+    return track, artist
 
 
 def current():
@@ -135,7 +138,7 @@ def current():
         else:
             return get_info_linux()
     except SpotifyClosed:
-        return get_info_chrome()
+        return get_info_web()
 
 
 def artist():
