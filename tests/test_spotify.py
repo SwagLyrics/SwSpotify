@@ -4,9 +4,6 @@ Contains unit tests for spotify.py
 import os
 import tempfile
 import unittest
-import threading
-import time
-import queue
 from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
 from SwSpotify import SpotifyNotRunning, SpotifyPaused
 from mock import patch
@@ -242,13 +239,6 @@ class WebTests(unittest.TestCase):
 
         self.assertTrue(os.path.exists(last_played) and os.path.exists(get_data))
 
-    @patch("os.path.getmtime", return_value=float('nan'))
-    @patch("json.loads", return_value={"artist":"Ceza", "name":"Suspus"})
-    def test_that_get_info_web_works(self, gettime, jsonload):
-        """
-        test that test get_info_web function works with the files created
-        """
-        self.assertTrue(get_info_web()==("Suspus", "Ceza"))
 
 if __name__ == '__main__':
     unittest.main()
