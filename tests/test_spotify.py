@@ -1,6 +1,7 @@
 """
 Contains unit tests for spotify.py
 """
+import os
 import unittest
 from SwSpotify.spotify import song, artist, get_info_windows
 from SwSpotify import SpotifyNotRunning, SpotifyPaused
@@ -222,6 +223,20 @@ class WebTests(unittest.TestCase):
         """
         x = song
         self.assertRaises(SpotifyNotRunning, x)
+
+    def test_that_get_info_web_creates_tempfiles(self):
+        """
+        test that test get_info_web function creates tempfiles for communication
+        """
+        try:
+            get_info_web()
+        except SpotifyNotRunning:
+            pass
+
+        get_data = os.path.join(tempfile.gettempdir(), "get_data")
+        last_played = os.path.join(tempfile.gettempdir(), "last_played")
+
+        self.assertTrue(os.path.exists(last_played) and os.path.exists(get_data))
 
 
 if __name__ == '__main__':
