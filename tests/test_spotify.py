@@ -2,11 +2,11 @@
 Contains unit tests for spotify.py
 """
 import unittest
-from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
+from SwSpotify.spotify import song, artist, get_info_windows
 from SwSpotify import SpotifyNotRunning, SpotifyPaused
+from SwSpotify.web_data import WebData
 from mock import patch
 import platform
-import requests
 
 
 class LinuxTests(unittest.TestCase):
@@ -214,14 +214,25 @@ class WebPlayerTests(unittest.TestCase):
         test that test song function returns None when the get_info_web function will return an error
         """
         x = artist
-        self.assertRaises(expected_exception=SpotifyNotRunning, callable=x)
+        self.assertRaises(SpotifyNotRunning, x)
 
     def test_that_song_function_returns_None_when_error(self):
         """
         test that test song function returns None when the get_info_web function will return an error
         """
         x = song
-        self.assertRaises(expected_exception=SpotifyNotRunning, callable=x)
+        self.assertRaises(SpotifyNotRunning, x)
+
+    def test_that_web_data_is_setting_properly(self):
+        title = "Hello"
+        artist = "Adele"
+        play_state = "Pause"
+        data = dict([('title', title), ('artist', artist), ("playState", play_state)])
+        WebData.set_song(data)
+
+        self.assertEqual(WebData.track, title)
+        self.assertEqual(WebData.artist, artist)
+        self.assertEqual(WebData.playState, play_state)
 
 
 if __name__ == '__main__':
