@@ -2,6 +2,7 @@
 Contains unit tests for spotify.py
 """
 import os
+import tempfile
 import unittest
 from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
 from SwSpotify import SpotifyNotRunning, SpotifyPaused
