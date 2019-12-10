@@ -115,17 +115,19 @@ def get_info_mac():
 
     return a[3], a[1]
 
+
 def get_info_web():
     # Paths for the files used for commucation with the Chrome extension
     get_data = os.path.join(tempfile.gettempdir(), "get_data")
     last_played = os.path.join(tempfile.gettempdir(), "last_played")
     # Update file to trigger the Chrome extension for retrieving data
-    with open(get_data, "w") as f:
+    with open(get_data, "w", encoding="utf-8") as f:
         f.write("get_data")
 
     # If the file for retrieving data doesn't exists, create and leave it blank
     if not os.path.exists(last_played):
-        with open(last_played, 'w'): pass
+        with open(last_played, 'w', encoding="utf-8"):
+            pass
 
     # Wait till the last_played data changes and return its value, 0.1 seconds for timeout
     last_changed = os.path.getmtime(last_played)
@@ -133,7 +135,7 @@ def get_info_web():
     while time.time() - t < 0.1:
         if os.path.getmtime(last_played) != last_changed:
             while True:
-                with open(last_played, "r") as f:
+                with open(last_played, "r", encoding="utf-8") as f:
                     try:
                         result = json.loads(f.read())
                         break
@@ -154,7 +156,7 @@ def current():
             return get_info_mac()
         else:
             return get_info_linux()
-    except (SpotifyClosed, SpotifyPaused):
+    except SpotifyNotRunning:
         return get_info_web()
 
 
