@@ -254,14 +254,14 @@ class WebTests(unittest.TestCase):
             except SpotifyNotRunning:
                 pass
 
-        q = queue.Queue()
-        t = Thread(target=lambda q: q.put(test_web()), args=(que))
+        que = queue.Queue()
+        t = threading.Thread(target=lambda q: q.put(test_web()), args=(que))
         t.start()
         t.join()
         time.sleep(0.03)
         gettime.return_value = float("inf")
         jsonload.return_value = {"artist":"Ceza", "name":"Suspus"}
-        self.assertTrue(q.get()==["Suspus", "Ceza"])
+        self.assertTrue(que.get()==["Suspus", "Ceza"])
 
 if __name__ == '__main__':
     unittest.main()
