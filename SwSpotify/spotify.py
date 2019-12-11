@@ -1,6 +1,6 @@
 import sys
 import os
-from SwSpotify import SpotifyNotRunning, spotify_web
+from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning, spotify_web
 
 
 def get_info_windows():
@@ -122,7 +122,7 @@ def get_info_web():
     sys.stderr = sys.__stderr__
 
     if not result:
-        raise SpotifyClosed
+        raise SpotifyNotRunning
 
     return result['title'], result['artist']
 
@@ -135,7 +135,7 @@ def current():
             return get_info_mac()
         else:
             return get_info_linux()
-    except SpotifyClosed:
+    except SpotifyNotRunning:
         return get_info_web()
 
 
