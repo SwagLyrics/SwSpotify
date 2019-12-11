@@ -6,7 +6,6 @@ import subprocess
 import sys
 import unittest
 
-import SwSpotify
 from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
 from SwSpotify import SpotifyNotRunning, SpotifyPaused
 from SwSpotify.web_data import WebData

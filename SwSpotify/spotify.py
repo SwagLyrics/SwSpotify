@@ -1,6 +1,6 @@
 import subprocess
 import sys
-from SwSpotify import SpotifyClosed, SpotifyPaused
+from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning
 
 
 def get_info_windows():
@@ -134,13 +134,11 @@ def current():
             return get_info_mac()
         else:
             return get_info_linux()
-    except SpotifyPaused:
+    except SpotifyNotRunning as e:
         try:
             return get_info_web()
         except SpotifyClosed:
-            raise SpotifyPaused
-    except SpotifyClosed:
-        return get_info_web()
+            raise e
 
 
 def artist():
