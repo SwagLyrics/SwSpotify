@@ -17,9 +17,6 @@ install:
 
   - "%PYTHON%\\python.exe -m pip install wheel"
   - "%PYTHON%\\python.exe -m pip install setuptools -U"
-  - "%PYTHON%\\python.exe -m pip install flask"
-  - "%PYTHON%\\python.exe -m pip install flask-cors"
-  - "%PYTHON%\\python.exe -m pip install requests"
   - "%PYTHON%\\python.exe -m pip install .[dev]"
   - "%PYTHON%\\python.exe -m pip install codecov"
 

@@ -18,9 +18,6 @@ before_install:
 install:
 - pip3 install --upgrade pip
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip3 install dbus-python; fi
-- pip3 install flask
-- pip3 install flask-cors
-- pip3 install requests
 - pip3 install .[dev]
 script:
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pytest --cov-config=.coveragerc --cov=SwSpotify
