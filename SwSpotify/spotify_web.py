@@ -45,7 +45,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
 
 def server():
-    server_address = ('localhost', 5042)
+    server_address = ('localhost', 5043)
     httpd = Server(server_address, RequestHandler)
     httpd.socket.settimeout(1.3)
     httpd.handle_request()
