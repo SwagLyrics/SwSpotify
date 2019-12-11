@@ -124,7 +124,7 @@ def get_info_web(timeout=0.1):
     with open(get_data, "w", encoding="utf-8") as f:
         f.write("get_data")
 
-    # If the file for retrieving data doesn't exists, create and leave it blank
+    # If the file for retrieving data doesn't exist, create and leave it blank
     if not os.path.exists(last_played):
         with open(last_played, 'w', encoding="utf-8"):
             pass
@@ -146,6 +146,7 @@ def get_info_web(timeout=0.1):
                 return result["name"], result["artist"]
     else:
         raise SpotifyClosed
+
 
 def current():
     # First try native approaches, then try using the web approach
