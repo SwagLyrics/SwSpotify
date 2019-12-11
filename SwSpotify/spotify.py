@@ -1,7 +1,6 @@
 import sys
 import os
-from SwSpotify import SpotifyClosed, SpotifyPaused
-from . import spotify_web
+from SwSpotify import SpotifyNotRunning, spotify_web
 
 
 def get_info_windows():
