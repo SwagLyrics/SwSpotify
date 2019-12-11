@@ -122,7 +122,7 @@ def get_info_web():
     sys.stderr = sys.__stderr__
 
     if not result:
-        raise SpotifyNotRunning
+        raise SpotifyClosed
 
     return result['title'], result['artist']
 
