@@ -200,7 +200,7 @@ class WebTests(unittest.TestCase):
         """
         test that test artist function calls get_info_web function
         """
-        x = artist()
+        artist()
         self.assertTrue(mock.called)
 
     @patch('SwSpotify.spotify.get_info_web')
@@ -208,7 +208,7 @@ class WebTests(unittest.TestCase):
         """
         test that test song function calls get_info_web function
         """
-        x = song()
+        song()
         self.assertTrue(mock.called)
 
     def test_that_artist_function_returns_None_when_error(self):
@@ -240,12 +240,12 @@ class WebTests(unittest.TestCase):
         self.assertTrue(os.path.exists(last_played) and os.path.exists(get_data))
 
     @patch("os.path.getmtime", return_value=float('nan'))
-    @patch("json.loads", return_value={"artist":"Ceza", "name":"Suspus"})
+    @patch("json.loads", return_value={"artist": "Ceza", "name": "Suspus"})
     def test_that_get_info_web_works(self, gettime, jsonload):
         """
         test that test get_info_web function works with the files created
         """
-        self.assertTrue(get_info_web()==("Suspus", "Ceza"))
+        self.assertTrue(get_info_web() == ("Suspus", "Ceza"))
 
 
 if __name__ == '__main__':
