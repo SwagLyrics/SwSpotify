@@ -187,7 +187,7 @@ class DarwinTests(unittest.TestCase):
 
 class ChromeTests(unittest.TestCase):
     """
-    Unit tests for Chrome (with extension)
+    Unit tests for Chrome (with extension) for spotify web player
     """
 
     def setup(self):
