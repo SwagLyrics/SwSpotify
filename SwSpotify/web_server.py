@@ -37,10 +37,10 @@ def shutdown():
 
 
 def start():
-    app.run(port=5042)
+    app.run(port=5043)
 
 
-@app.route('/getsong', methods=['POST'])
+@app.route('/getSong', methods=['POST'])
 def get_song():
     data = request.get_json()
     WebData.set_song(data)

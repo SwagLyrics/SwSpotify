@@ -4,7 +4,7 @@ import requests
 
 def shutdown_post():
     try:
-        requests.post("http://127.0.0.1:5042/shutdown")
+        requests.post("http://127.0.0.1:5043/shutdown")
     except requests.exceptions.ConnectionError:
         pass
 

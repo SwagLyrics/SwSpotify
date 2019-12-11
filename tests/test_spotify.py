@@ -1,8 +1,13 @@
 """
 Contains unit tests for spotify.py
 """
+import os
+import subprocess
+import sys
 import unittest
-from SwSpotify.spotify import song, artist, get_info_windows
+
+import SwSpotify
+from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
 from SwSpotify import SpotifyNotRunning, SpotifyPaused
 from SwSpotify.web_data import WebData
 from mock import patch
@@ -233,6 +238,13 @@ class WebPlayerTests(unittest.TestCase):
         self.assertEqual(WebData.track, title)
         self.assertEqual(WebData.artist, artist)
         self.assertEqual(WebData.playState, play_state)
+
+    def test_that_get_info_web_returns_correct_data(self):
+        subprocess.Popen([sys.executable, os.path.join(os.path.dirname(__file__) + "/fake_request.py")])
+        title, artist = get_info_web()
+        self.assertEqual(title, "Hello")
+        self.assertEqual(artist, "Adele")
+        self.assertEqual(WebData.playState, "Pause")
 
 
 if __name__ == '__main__':

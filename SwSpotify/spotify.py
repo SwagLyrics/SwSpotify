@@ -134,6 +134,11 @@ def current():
             return get_info_mac()
         else:
             return get_info_linux()
+    except SpotifyPaused:
+        try:
+            return get_info_web()
+        except SpotifyClosed:
+            raise SpotifyPaused
     except SpotifyClosed:
         return get_info_web()
 
