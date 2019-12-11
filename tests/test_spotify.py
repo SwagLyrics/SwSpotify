@@ -245,7 +245,7 @@ class WebTests(unittest.TestCase):
         """
         test that test get_info_web function works with the files created
         """
-        self.assertTrue(get_info_web() == ("Suspus", "Ceza"))
+        self.assertEqual(get_info_web(), ("Suspus", "Ceza"))
 
 
 if __name__ == '__main__':
