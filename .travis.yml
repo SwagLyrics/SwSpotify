@@ -21,11 +21,10 @@ install:
 - pip3 install .[dev]
 script:
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pytest --cov-config=.coveragerc --cov=SwSpotify
-  tests/test_spotify.py::LinuxTests; pytest --cov-config=.coveragerc --cov=SwSpotify
-    tests/test_spotify.py::WebTests; fi
+  tests/test_spotify.py::LinuxTests; fi
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pytest --cov-config=.coveragerc --cov=SwSpotify
-  tests/test_spotify.py::DarwinTests;  pytest --cov-config=.coveragerc --cov=SwSpotify
-    tests/test_spotify.py::WebTests; fi
+  tests/test_spotify.py::DarwinTests; fi
+- pytest --cov-config=.coveragerc --cov=SwSpotify tests/test_spotify.py::WebTests; 
 after_success:
 - bash <(curl -s https://codecov.io/bash) -Z
 deploy:
