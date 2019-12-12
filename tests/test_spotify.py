@@ -218,12 +218,13 @@ class WebTests(unittest.TestCase):
         x = song
         self.assertRaises(SpotifyNotRunning, x)
 
-    @patch('SwSpotify.spotify.get_info_web')
-    def test_that_get_info_returns_data(self, mock):
+    @patch('spotify_web.run', return_value={"title": "Darkside", "artist": "Alan Walker"})
+    def test_get_info_web(self, mock_spotify_web):
         """
-        test that get_info_web returns song, artist (or None, None) if Spotify not running
+        test that get_info_web works
         """
-        self.assertEqual(get_info_web(), (song, artist))
+        x = get_info_web()
+        self.assertEqual(x, ("Darkside", "Alan Walker"))
 
 
 if __name__ == '__main__':
