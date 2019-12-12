@@ -1,5 +1,6 @@
-import sys
 import os
+import sys
+
 from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning, spotify_web
 
 
@@ -135,8 +136,11 @@ def current():
             return get_info_mac()
         else:
             return get_info_linux()
-    except SpotifyNotRunning:
-        return get_info_web()
+    except SpotifyNotRunning as e:
+        try:
+            return get_info_web()
+        except SpotifyClosed:
+            raise e
 
 
 def artist():
