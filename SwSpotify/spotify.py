@@ -116,8 +116,10 @@ def get_info_web():
     from SwSpotify.web_data import WebData
     import SwSpotify.web_server
     import os
+    import contextlib
     subprocess.Popen([sys.executable, os.path.join(os.path.dirname(__file__) + "/server_shutdown.py")])
-    SwSpotify.web_server.run()
+    with open(os.devnull, 'w') as f, contextlib.redirect_stdout(f):
+        SwSpotify.web_server.run()
     if WebData.track == "":
         raise SpotifyClosed
     elif WebData.playState == "Play":
