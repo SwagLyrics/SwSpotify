@@ -2,7 +2,7 @@
 Contains unit tests for spotify.py
 """
 import unittest
-from SwSpotify.spotify import song, artist, get_info_windows
+from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
 from SwSpotify import SpotifyNotRunning, SpotifyPaused
 from mock import patch
 import platform
@@ -185,7 +185,7 @@ class DarwinTests(unittest.TestCase):
         self.assertRaises(SpotifyNotRunning, x)
 
 
-class ChromeTests(unittest.TestCase):
+class WebTests(unittest.TestCase):
     """
     Unit tests for Chrome (with extension) for spotify web player
     """
@@ -193,7 +193,7 @@ class ChromeTests(unittest.TestCase):
     def setup(self):
         pass
 
-    @patch('SwSpotify.spotify.get_info_chrome')
+    @patch('SwSpotify.spotify.get_info_web')
     def test_that_artist_function_calls_get_info(self, mock):
         """
         test that test artist function calls get_info_chrome function
@@ -201,27 +201,34 @@ class ChromeTests(unittest.TestCase):
         x = artist()
         self.assertTrue(mock.called)
 
-    @patch('SwSpotify.spotify.get_info_chrome')
+    @patch('SwSpotify.spotify.get_info_web')
     def test_that_song_function_calls_get_info(self, mock):
         """
-        test that test song function calls get_info_chrome function
+        test that test song function calls get_info_web function
         """
         x = song()
         self.assertTrue(mock.called)
 
     def test_that_artist_function_returns_None_when_error(self):
         """
-        test that test artist function returns None when the get_info_chrome function will return an error
+        test that test artist function returns None when the get_info_web function will return an error
         """
         x = artist
         self.assertRaises(SpotifyNotRunning, x)
 
     def test_that_song_function_returns_None_when_error(self):
         """
-        test that test song function returns None when the get_info_chrome function will return an error
+        test that test song function returns None when the get_info_web function will return an error
         """
         x = song
         self.assertRaises(SpotifyNotRunning, x)
+
+    @patch('SwSpotify.spotify.get_info_web')
+    def test_that_get_info_returns_data(self, mock):
+        """
+        test that get_info_web returns song, artist (or None, None) if Spotify not running
+        """
+        self.assertEqual(get_info_web(), (song, artist))
 
 
 if __name__ == '__main__':
