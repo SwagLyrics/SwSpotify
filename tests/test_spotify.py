@@ -211,13 +211,6 @@ class WebTests(unittest.TestCase):
         x = song()
         self.assertTrue(mock.called)
 
-    def test_that_song_function_returns_None_when_error(self):
-        """
-        test that test song function returns None when the get_info_web function will return an error
-        """
-        x = song
-        self.assertRaises(SpotifyNotRunning, x)
-
     @patch('spotify_web.run', return_value={"title": "Darkside", "artist": "Alan Walker"})
     def test_get_info_web(self, mock_spotify_web):
         """
