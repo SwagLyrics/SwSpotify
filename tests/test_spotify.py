@@ -240,12 +240,20 @@ class WebTests(unittest.TestCase):
         self.assertTrue(os.path.exists(last_played) and os.path.exists(get_data))
 
     @patch("os.path.getmtime", return_value=float('nan'))
-    @patch("json.loads", return_value={"artist": "Ceza", "name": "Suspus"})
+    @patch("json.loads", return_value={"artist": "Ceza", "name": "Suspus", "isPlaying": True})
     def test_that_get_info_web_works(self, gettime, jsonload):
         """
         test that test get_info_web function works with the files created
         """
         self.assertEqual(get_info_web(), ("Suspus", "Ceza"))
+
+    @patch("os.path.getmtime", return_value=float('nan'))
+    @patch("json.loads", return_value={"artist": "Ceza", "name": "Suspus", "isPlaying": False})
+    def test_that_get_info_web_raises_exception_when_spotify_paused(self, gettime, jsonload):
+        """
+        test that test get_info_web raises exception when Spotify is paused
+        """
+        self.assertRaises(SpotifyPaused, get_info_web)
 
 
 if __name__ == '__main__':

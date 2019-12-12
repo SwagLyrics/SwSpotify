@@ -143,7 +143,10 @@ def get_info_web(timeout=0.1):
                         pass
 
             if result:
-                return result["name"], result["artist"]
+                if result["isPlaying"]:
+                    return result["name"], result["artist"]
+                else:
+                    raise SpotifyPaused
     else:
         raise SpotifyClosed
 
