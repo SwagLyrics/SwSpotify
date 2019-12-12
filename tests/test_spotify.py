@@ -1,11 +1,13 @@
 """
 Contains unit tests for spotify.py
 """
-import unittest
-from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
-from SwSpotify import SpotifyNotRunning, SpotifyPaused
-from mock import patch
 import platform
+import unittest
+
+from mock import patch
+
+from SwSpotify import SpotifyNotRunning, SpotifyPaused
+from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
 
 
 class LinuxTests(unittest.TestCase):
@@ -64,7 +66,7 @@ class WindowsTests(unittest.TestCase):
         pass
 
     if platform.system() == "Windows":
-        import win32gui
+        pass
 
     @patch('win32gui.GetWindowText', return_value='Alan Walker - Darkside')
     @patch('win32gui.EnumWindows', return_value=None)
@@ -208,13 +210,6 @@ class WebTests(unittest.TestCase):
         """
         x = song()
         self.assertTrue(mock.called)
-
-    def test_that_artist_function_returns_None_when_error(self):
-        """
-        test that test artist function returns None when the get_info_web function will return an error
-        """
-        x = artist
-        self.assertRaises(SpotifyNotRunning, x)
 
     def test_that_song_function_returns_None_when_error(self):
         """
