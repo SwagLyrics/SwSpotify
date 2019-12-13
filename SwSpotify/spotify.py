@@ -1,4 +1,3 @@
-import os
 import sys
 
 from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning, spotify_web
@@ -118,9 +117,7 @@ def get_info_web():
     """
     Uses chrome extension to get the data
     """
-    sys.stderr = open(os.devnull, "w")
     result = spotify_web.run()
-    sys.stderr = sys.__stderr__
 
     if not result:
         raise SpotifyClosed

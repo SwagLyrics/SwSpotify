@@ -43,6 +43,9 @@ class RequestHandler(BaseHTTPRequestHandler):
         self._set_headers()
         self.wfile.write(b'test')
 
+    def log_message(self, *args):
+        return
+
 
 def server():
     server_address = ('localhost', 5043)
