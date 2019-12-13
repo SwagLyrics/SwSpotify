@@ -211,8 +211,8 @@ class WebTests(unittest.TestCase):
         x = song()
         self.assertTrue(mock.called)
 
-    @patch('spotify_web.run', return_value={"title": "Darkside", "artist": "Alan Walker"})
-    def test_get_info_web(self, mock_spotify_web):
+    @patch('SwSpotify.spotify_web.run', return_value={"title": "Darkside", "artist": "Alan Walker"})
+    def test_get_info_web(self, mock):
         """
         test that get_info_web works
         """
