@@ -5,9 +5,12 @@ import requests
 def shutdown_post():
     try:
         requests.post("http://127.0.0.1:5043/shutdown")
-    except requests.exceptions.ConnectionError:
+    except (requests.exceptions.ConnectionError, KeyboardInterrupt):
         pass
 
 
 # first parameter is time before executing post
-threading.Timer(1.3, shutdown_post).run()
+try:
+    threading.Timer(1.3, shutdown_post).run()
+except KeyboardInterrupt:
+    pass
