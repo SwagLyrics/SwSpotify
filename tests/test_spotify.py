@@ -11,6 +11,7 @@ from SwSpotify import SpotifyNotRunning, SpotifyPaused
 from SwSpotify.web_data import WebData
 from mock import patch
 import platform
+from SwSpotify.web_server import run
 
 
 class LinuxTests(unittest.TestCase):
@@ -244,6 +245,11 @@ class WebPlayerTests(unittest.TestCase):
         self.assertEqual(title, "Hello")
         self.assertEqual(artist, "Adele")
         self.assertEqual(WebData.playState, "Pause")
+
+    @patch("SwSpotify.web_server.start")
+    def test_that_server_starts(self, mock):
+        run()
+        self.assertTrue(mock.called)
 
 
 if __name__ == '__main__':
