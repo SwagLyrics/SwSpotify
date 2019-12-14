@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from SwSpotify.web_data import WebData
+from SwSpotify.spotify import WebData
 import logging
 import requests
 import threading

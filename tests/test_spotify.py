@@ -8,10 +8,10 @@ import unittest
 
 from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
 from SwSpotify import SpotifyNotRunning, SpotifyPaused
-from SwSpotify.web_data import WebData
+from SwSpotify.spotify import WebData
 from mock import patch
 import platform
-from SwSpotify.web_server import run
+from SwSpotify.web_server import run, shutdown_post
 
 
 class LinuxTests(unittest.TestCase):
