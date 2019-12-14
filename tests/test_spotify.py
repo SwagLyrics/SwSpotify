@@ -8,6 +8,7 @@ from mock import patch
 
 from SwSpotify import SpotifyNotRunning, SpotifyPaused, SpotifyClosed
 from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
+from SwSpotify.spotify_web import run as server_run
 
 
 class LinuxTests(unittest.TestCase):
@@ -256,6 +257,14 @@ class WebTests(unittest.TestCase):
         """
         song()
         self.assertFalse(mock.called)
+
+    @patch('SwSpotify.spotify_web.server')
+    def test_run_function_calls_server(self, mock):
+        """
+        test that the server function is called by run
+        """
+        server_run()
+        self.assertTrue(mock.called)
 
 
 if __name__ == '__main__':
