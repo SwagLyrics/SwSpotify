@@ -6,7 +6,7 @@ import unittest
 
 from mock import patch
 
-from SwSpotify import SpotifyNotRunning, SpotifyPaused
+from SwSpotify import SpotifyNotRunning, SpotifyPaused, SpotifyClosed
 from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
 
 
@@ -229,10 +229,17 @@ class WebTests(unittest.TestCase):
         song()
         self.assertTrue(mock.called)
 
-    @patch('SwSpotify.spotify_web.run', return_value={"title": "Darkside", "artist": "Alan Walker"})
-    def test_get_info_web(self, mock):
+    @patch('SwSpotify.spotify_web.run', return_value=None)
+    def test_get_info_web_returns_error_when_none(self, mock):
         """
-        test that get_info_web works
+        test that get_info_web raises SpotifyClosed when spotify_web.run returns None
+        """
+        self.assertRaises(SpotifyClosed, get_info_web)
+
+    @patch('SwSpotify.spotify_web.run', return_value={"title": "Darkside", "artist": "Alan Walker"})
+    def test_get_info_web_parse(self, mock):
+        """
+        test that get_info_web parses the dictionary correctly
         """
         x = get_info_web()
         self.assertEqual(x, ("Darkside", "Alan Walker"))
