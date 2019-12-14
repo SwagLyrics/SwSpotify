@@ -2,6 +2,18 @@ name = 'SwSpotify'
 __version__ = '1.1.1'
 
 
+class WebData:
+    track = None
+    artist = None
+    playState = None
+
+    @staticmethod
+    def set_song(data):
+        WebData.track = data['title']
+        WebData.artist = data['artist']
+        WebData.playState = data['playState']
+
+
 class SpotifyNotRunning(Exception):
     """
     Base exception raised if Spotify is not running i.e. is closed or paused.

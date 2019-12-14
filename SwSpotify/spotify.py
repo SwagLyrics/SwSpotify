@@ -2,18 +2,6 @@ import sys
 from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning
 
 
-class WebData:
-    track = None
-    artist = None
-    playState = None
-
-    @staticmethod
-    def set_song(data):
-        WebData.track = data['title']
-        WebData.artist = data['artist']
-        WebData.playState = data['playState']
-
-
 def get_info_windows():
     """
     Reads the window titles to get the data.
@@ -127,6 +115,7 @@ def get_info_web():
     import SwSpotify.web_server
     import os
     import contextlib
+    from SwSpotify import WebData
     with open(os.devnull, 'w') as f, contextlib.redirect_stdout(f):
         SwSpotify.web_server.run()
     if not WebData.track:

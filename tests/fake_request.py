@@ -1,5 +1,8 @@
-import threading
 import requests
+
+
+class PingStatus:
+    status = None
 
 
 def send_fake_request():
@@ -9,5 +12,6 @@ def send_fake_request():
     s.post("http://127.0.0.1:5043/getSong", data, True)
 
 
-# first parameter is time before executing post
-threading.Timer(0.1, send_fake_request).run()
+def send_ping():
+    req = requests.get("http://127.0.0.1:5043/ping")
+    PingStatus.status = req.ok

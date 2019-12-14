@@ -4,14 +4,16 @@ Contains unit tests for spotify.py
 import os
 import subprocess
 import sys
+import threading
 import unittest
 
 from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
 from SwSpotify import SpotifyNotRunning, SpotifyPaused
-from SwSpotify.spotify import WebData
+from SwSpotify import WebData
 from mock import patch
 import platform
 from SwSpotify.web_server import run, shutdown_post
+from tests.fake_request import PingStatus, send_ping, send_fake_request
 
 
 class LinuxTests(unittest.TestCase):
@@ -240,7 +242,7 @@ class WebPlayerTests(unittest.TestCase):
         self.assertEqual(WebData.playState, play_state)
 
     def test_that_get_info_web_returns_correct_data(self):
-        subprocess.Popen([sys.executable, os.path.join(os.path.dirname(__file__) + "/fake_request.py")])
+        threading.Timer(0.1, send_fake_request).start()
         title, artist = get_info_web()
         self.assertEqual(title, "Hello")
         self.assertEqual(artist, "Adele")
@@ -249,7 +251,13 @@ class WebPlayerTests(unittest.TestCase):
     @patch("SwSpotify.web_server.start")
     def test_that_server_starts(self, mock):
         run()
+        shutdown_post()
         self.assertTrue(mock.called)
+
+    def test_that_ping_pongs(self):
+        threading.Timer(0.1, send_ping).start()
+        run()
+        self.assertTrue(PingStatus.status)
 
 
 if __name__ == '__main__':
