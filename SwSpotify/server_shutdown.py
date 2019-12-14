@@ -11,6 +11,6 @@ def shutdown_post():
 
 # first parameter is time before executing post
 try:
-    threading.Timer(1.3, shutdown_post).run()
+    threading.Timer(0.5, shutdown_post).run()
 except KeyboardInterrupt:
     pass
