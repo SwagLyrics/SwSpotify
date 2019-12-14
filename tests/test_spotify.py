@@ -266,6 +266,12 @@ class WebTests(unittest.TestCase):
         server_run()
         self.assertTrue(mock.called)
 
+    @patch('SwSpotify.spotify_web.Server')
+    def test_server_returns_null_if_no_data(self, mock_server):
+        mock_server.data = {}
+        result = server_run()
+        self.assertEqual(result, None)
+
 
 if __name__ == '__main__':
     unittest.main()
