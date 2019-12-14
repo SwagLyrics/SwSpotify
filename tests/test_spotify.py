@@ -196,19 +196,37 @@ class WebTests(unittest.TestCase):
         pass
 
     @patch('SwSpotify.spotify.get_info_web')
-    def test_that_artist_function_calls_get_info(self, mock):
+    @patch('SwSpotify.spotify.sys')
+    @patch('SwSpotify.spotify.get_info_linux', **{'return_value.raiseError.side_effect': SpotifyNotRunning})
+    def test_that_artist_function_calls_get_info(self, mock, mock_sys, mock_no_native_spotify):
         """
-        test that test artist function calls get_info_chrome function
+        test that artist function calls get_info_web when native is not running.
+
+        This works by mocking the get_info_linux which is called since we mock the platform as linux. NOTE that this
+        would work on any platform I just mocked the platform to save mocking every get_info function with the
+        SpotifyNotRunning error.
+
+        This should cause the 'current' function to now run get_info_web due to the exception thrown.
         """
-        x = artist()
+        mock_sys.platform = "Linux"
+        artist()
         self.assertTrue(mock.called)
 
     @patch('SwSpotify.spotify.get_info_web')
-    def test_that_song_function_calls_get_info(self, mock):
+    @patch('SwSpotify.spotify.sys')
+    @patch('SwSpotify.spotify.get_info_linux', **{'return_value.raiseError.side_effect': SpotifyNotRunning})
+    def test_that_song_function_calls_get_info(self, mock, mock_sys, mock_no_native_spotify):
         """
-        test that test song function calls get_info_web function
+        test that artist function calls get_info_web when native is not running.
+
+        This works by mocking the get_info_linux which is called since we mock the platform as linux. NOTE that this
+        would work on any platform I just mocked the platform to save mocking every get_info function with the
+        SpotifyNotRunning error.
+
+        This should cause the 'current' function to now run get_info_web due to the exception thrown.
         """
-        x = song()
+        mock_sys.platform = "Linux"
+        song()
         self.assertTrue(mock.called)
 
     @patch('SwSpotify.spotify_web.run', return_value={"title": "Darkside", "artist": "Alan Walker"})
