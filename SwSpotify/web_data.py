@@ -1,7 +1,7 @@
 class WebData:
-    track = ""
-    artist = ""
-    playState = ""
+    track = None
+    artist = None
+    playState = None
 
     @staticmethod
     def set_song(data):

@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from SwSpotify.web_data import WebData
 import logging
+import requests
+import threading
 
 
 app = Flask(__name__)
@@ -15,7 +17,15 @@ def run():
     CORS(app)
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)
+    threading.Timer(0.5, shutdown_post).start()
     start()
+
+
+def shutdown_post():
+    try:
+        requests.post("http://127.0.0.1:5043/shutdown")
+    except (requests.exceptions.ConnectionError, KeyboardInterrupt):
+        pass
 
 
 @app.route('/ping', methods=['GET'])

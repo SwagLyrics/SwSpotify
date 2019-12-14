@@ -1,4 +1,3 @@
-import subprocess
 import sys
 from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning
 
@@ -117,10 +116,9 @@ def get_info_web():
     import SwSpotify.web_server
     import os
     import contextlib
-    subprocess.Popen([sys.executable, os.path.join(os.path.dirname(__file__) + "/server_shutdown.py")])
     with open(os.devnull, 'w') as f, contextlib.redirect_stdout(f):
         SwSpotify.web_server.run()
-    if WebData.track == "":
+    if not WebData.track:
         raise SpotifyClosed
     elif WebData.playState == "Play":
         raise SpotifyPaused
