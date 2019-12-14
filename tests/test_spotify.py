@@ -244,6 +244,19 @@ class WebTests(unittest.TestCase):
         x = get_info_web()
         self.assertEqual(x, ("Darkside", "Alan Walker"))
 
+    @patch('SwSpotify.spotify.get_info_web')
+    @patch('SwSpotify.spotify.get_info_linux', return_value=("some song", "some artist"))
+    @patch('SwSpotify.spotify.get_info_windows', return_value=("some song", "some artist"))
+    @patch('SwSpotify.spotify.get_info_mac', return_value=("some song", "some artist"))
+    def test_get_info_web_not_called_if_native(self, mock, mock_sys, *mock_native_detected):
+        """
+        test that get_info_web is not called when there is a native alternative available.
+        We mock the all the native get_info functions to return without raising a SpotifyNotRunning error and returning
+        a supported value.
+        """
+        song()
+        self.assertFalse(mock.called)
+
 
 if __name__ == '__main__':
     unittest.main()
