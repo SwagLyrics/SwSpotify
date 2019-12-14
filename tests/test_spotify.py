@@ -238,12 +238,17 @@ class WebTests(unittest.TestCase):
         self.assertRaises(SpotifyClosed, get_info_web)
 
     @patch('SwSpotify.spotify_web.run', return_value={"title": "Darkside", "artist": "Alan Walker"})
-    def test_get_info_web_parse(self, mock):
+    def test_get_info_web_parses_object(self, mock):
         """
         test that get_info_web parses the dictionary correctly
         """
         x = get_info_web()
         self.assertEqual(x, ("Darkside", "Alan Walker"))
+
+    @patch('SwSpotify.spotify_web.run', return_value={"title": "some title", "artist": "some artist"})
+    def test_get_info_web_returns_tuple_with_two_values(self, mock):
+        x = get_info_web()
+        self.assertEquals(len(x), 2)
 
     @patch('SwSpotify.spotify.get_info_web')
     @patch('SwSpotify.spotify.get_info_linux', return_value=("some song", "some artist"))
@@ -267,10 +272,10 @@ class WebTests(unittest.TestCase):
         self.assertTrue(mock.called)
 
     @patch('SwSpotify.spotify_web.Server')
-    def test_server_returns_null_if_no_data(self, mock_server):
+    def test_server_function_returns_null_if_no_data(self, mock_server):
         mock_server.data = {}
         result = server_run()
-        self.assertEqual(result, None)
+        self.assertIsNone(result)
 
 
 if __name__ == '__main__':
