@@ -46,7 +46,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def log_message(self, *args):
         # override logging requests to stderr for smooth interface
-        return
+        pass
 
 
 def server():

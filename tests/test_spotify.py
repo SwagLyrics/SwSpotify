@@ -278,6 +278,7 @@ class WebTests(unittest.TestCase):
         self.assertIsNone(result)
 
     def test_cors_headers_set_for_preflight(self):
+        pass
 
 
 if __name__ == '__main__':
