@@ -41,7 +41,7 @@ def get_info_windows():
         track = windows[0]
 
     # The window title is the default one when paused
-    if windows[0] in ('Spotify Premium', 'Spotify Free'):
+    if windows[0] in ('Spotify Premium', 'Spotify Free', 'Spotify'):
         raise SpotifyPaused
 
     return track, artist
