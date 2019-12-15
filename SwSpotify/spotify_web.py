@@ -33,7 +33,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def do_OPTIONS(self):
         self._set_headers()
-        self.data = {}
+        self.data = {}  # set data to empty on preflight request
 
     def do_POST(self):
         # Handled posted data
@@ -56,7 +56,7 @@ def server():
     httpd = Server(server_address, RequestHandler)
     httpd.socket.settimeout(1.3)
 
-    httpd.handle_request()  # receive OPTIONS request from client: ignore
+    httpd.handle_request()  # receive OPTIONS request for preflight
     httpd.handle_request()  # receive POST from client: will be collected
 
     # check weather the dict is empty if it is return None
