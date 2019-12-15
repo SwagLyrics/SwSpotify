@@ -17,7 +17,9 @@ def run():
     CORS(app)
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)
-    threading.Timer(0.5, shutdown_post).start()
+    timer = threading.Timer(0.5, shutdown_post)
+    timer.daemon = True
+    timer.start()
     start()
 
 
