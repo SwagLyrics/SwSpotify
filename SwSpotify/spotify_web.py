@@ -27,6 +27,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)  # send response ok
         # CORS headers
         self.send_header("Access-Control-Allow-Headers", "*")
+        self.send_header("Access-Control-Allow-Methods", "OPTIONS, POST")
         self.send_header("Access-Control-Allow-Origin", "chrome-extension://bobgjepgcclcojkiolmcjehhmmhnpcic")
         self.end_headers()
 
