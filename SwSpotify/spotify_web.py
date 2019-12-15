@@ -20,9 +20,9 @@ class Server(HTTPServer):
 
 
 class RequestHandler(BaseHTTPRequestHandler):
-
-    def __init__(self, *args):
-        super(RequestHandler, self).__init__(*args)
+    """
+    create a request handler to tell the HTTPServer how to respond to different requests
+    """
 
     def _set_headers(self):
         self.send_response(200)  # send response ok
