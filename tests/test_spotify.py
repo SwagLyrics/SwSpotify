@@ -254,7 +254,7 @@ class WebTests(unittest.TestCase):
     @patch('SwSpotify.spotify.get_info_linux', return_value=("some song", "some artist"))
     @patch('SwSpotify.spotify.get_info_windows', return_value=("some song", "some artist"))
     @patch('SwSpotify.spotify.get_info_mac', return_value=("some song", "some artist"))
-    def test_get_info_web_not_called_if_native(self, mock, mock_sys, *mock_native_detected):
+    def test_get_info_web_not_called_if_native(self, mock, *mock_native_detected):
         """
         test that get_info_web is not called when there is a native alternative available.
         We mock the all the native get_info functions to return without raising a SpotifyNotRunning error and returning
@@ -276,6 +276,8 @@ class WebTests(unittest.TestCase):
         mock_server.data = {}
         result = server_run()
         self.assertIsNone(result)
+
+    def test_cors_headers_set_for_preflight(self):
 
 
 if __name__ == '__main__':

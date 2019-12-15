@@ -66,7 +66,7 @@ def server():
 
 
 def wrapper(func, data):
-    data.append(func())  # Append the return value of the webserver to the list
+    data.append(func())  # Append the return value of the web server to the list
 
 
 def run():
