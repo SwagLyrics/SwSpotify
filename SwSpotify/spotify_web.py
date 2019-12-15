@@ -3,7 +3,7 @@ import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 """
-Module to collect the current track data from the chrome extension if open.
+Module to collect the current track data from the chrome extension if open as dict, else return None
 """
 
 
@@ -14,9 +14,8 @@ class Server(HTTPServer):
         self.data = {}
 
     def finish_request(self, request, client_address):
-        # set data to the value collect by the request handler
+        # override finish_request to capture the data from the post request
         self.data = self.RequestHandlerClass(request, client_address, self).data
-        pass
 
 
 class RequestHandler(BaseHTTPRequestHandler):
