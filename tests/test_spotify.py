@@ -137,10 +137,12 @@ class WindowsTests(unittest.TestCase):
         """
         test that get_info_windows parses song, artist correctly from the Spotify window
         """
+
         def w_text():
             yield ''
             while True:
                 yield 'Adele - Hello'
+
         window_text = w_text()
         mock_window_text.side_effect = window_text
 
@@ -193,7 +195,7 @@ class WebTests(unittest.TestCase):
     Unit tests for Chrome (with extension) for spotify web player
     """
 
-    def setup(self):
+    def setUp(self):
         pass
 
     @patch('SwSpotify.spotify.get_info_web')
@@ -263,6 +265,8 @@ class WebTests(unittest.TestCase):
         song()
         self.assertFalse(mock.called)
 
+
+class WebServerTests(unittest.TestCase):
     @patch('SwSpotify.spotify_web.server')
     def test_run_function_calls_server(self, mock):
         """
@@ -276,9 +280,6 @@ class WebTests(unittest.TestCase):
         mock_server.data = {}
         result = server_run()
         self.assertIsNone(result)
-
-    def test_cors_headers_set_for_preflight(self):
-        pass
 
 
 if __name__ == '__main__':
