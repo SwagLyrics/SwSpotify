@@ -267,19 +267,26 @@ class WebTests(unittest.TestCase):
 
 
 class WebServerTests(unittest.TestCase):
-    @patch('SwSpotify.spotify_web.server')
+    @patch('SwSpotify.spotify_web.fetch_data')
     def test_run_function_calls_server(self, mock):
         """
-        test that the server function is called by run
+        test that the fetch_data function is called by run
         """
         server_run()
         self.assertTrue(mock.called)
 
     @patch('SwSpotify.spotify_web.Server')
     def test_server_function_returns_null_if_no_data(self, mock_server):
-        mock_server.data = {}
+        mock_server.data = {'title': 'hi'}
         result = server_run()
         self.assertIsNone(result)
+
+    @patch('SwSpotify.spotify_web.Server')
+    def test_server_returns_none_when_no_data(self, mock_server):
+        mock_server.data = [1, 2, 3, 4]
+        x = server_run()
+        print(x)
+        self.assertIsNone(x)
 
 
 if __name__ == '__main__':

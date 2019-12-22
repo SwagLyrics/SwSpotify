@@ -1,5 +1,4 @@
 import json
-import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 """
@@ -9,7 +8,7 @@ Module to collect the current track data from the chrome extension if open as di
 
 class Server(HTTPServer):
 
-    def __init__(self, server_address, RequestHandlerClass, bind_and_activate=True):
+    def __init__(self, server_address, RequestHandlerClass):
         super().__init__(server_address, RequestHandlerClass, bind_and_activate=True)
         self.data = {}
 
@@ -49,8 +48,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         pass
 
 
-def server():
-    # setup server and receive 2 requests
+def fetch_data():
+    # setup fetch_data and receive 2 requests
     server_address = ('localhost', 5043)
 
     httpd = Server(server_address, RequestHandler)
@@ -65,21 +64,6 @@ def server():
     return httpd.data  # return data object to wrapper function
 
 
-def wrapper(func, data):
-    data.append(func())  # Append the return value of the web server to the list
-
-
-def run():
-    """
-    Entry point for spotify.py
-    """
-    data = []
-    t = threading.Thread(target=wrapper, args=(server, data))  # Spawn wrapper thread to run web server
-    t.start()
-    t.join()  # Sync the threads so we can exit cleanly
-    return data[0]  # Return none or the dictionary
-
-
 if __name__ == "__main__":
-    x = run()
+    x = fetch_data()
     print(x)

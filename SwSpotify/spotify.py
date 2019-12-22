@@ -117,7 +117,7 @@ def get_info_web():
     """
     Uses chrome extension to get the data
     """
-    result = spotify_web.run()
+    result = spotify_web.fetch_data()
 
     if not result:
         raise SpotifyClosed
