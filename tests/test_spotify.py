@@ -280,6 +280,13 @@ class WebServerTests(unittest.TestCase):
         print(x)
         self.assertIsNone(x)
 
+    @patch('SwSpotify.spotify_web.Server')
+    def test_fetch_data_returns(self, mock):
+        mock_instance = mock.return_value
+        mock_instance.data = {'some data'}
+        x = web_fetch_data()
+        self.assertEquals(x, {'some data'})
+
 
 if __name__ == '__main__':
     unittest.main()
