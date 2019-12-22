@@ -8,7 +8,7 @@ from mock import patch
 
 from SwSpotify import SpotifyNotRunning, SpotifyPaused, SpotifyClosed
 from SwSpotify.spotify import song, artist, get_info_windows, get_info_web
-from SwSpotify.spotify_web import run as server_run
+from SwSpotify.spotify_web import fetch_data as web_fetch_data
 
 
 class LinuxTests(unittest.TestCase):
@@ -232,14 +232,14 @@ class WebTests(unittest.TestCase):
         song()
         self.assertTrue(mock.called)
 
-    @patch('SwSpotify.spotify_web.run', return_value=None)
+    @patch('SwSpotify.spotify_web.fetch_data', return_value=None)
     def test_get_info_web_returns_error_when_none(self, mock):
         """
         test that get_info_web raises SpotifyClosed when spotify_web.run returns None
         """
         self.assertRaises(SpotifyClosed, get_info_web)
 
-    @patch('SwSpotify.spotify_web.run', return_value={"title": "Darkside", "artist": "Alan Walker"})
+    @patch('SwSpotify.spotify_web.fetch_data', return_value={"title": "Darkside", "artist": "Alan Walker"})
     def test_get_info_web_parses_object(self, mock):
         """
         test that get_info_web parses the dictionary correctly
@@ -247,7 +247,7 @@ class WebTests(unittest.TestCase):
         x = get_info_web()
         self.assertEqual(x, ("Darkside", "Alan Walker"))
 
-    @patch('SwSpotify.spotify_web.run', return_value={"title": "some title", "artist": "some artist"})
+    @patch('SwSpotify.spotify_web.fetch_data', return_value={"title": "some title", "artist": "some artist"})
     def test_get_info_web_returns_tuple_with_two_values(self, mock):
         x = get_info_web()
         self.assertEquals(len(x), 2)
@@ -267,24 +267,16 @@ class WebTests(unittest.TestCase):
 
 
 class WebServerTests(unittest.TestCase):
-    @patch('SwSpotify.spotify_web.fetch_data')
-    def test_run_function_calls_server(self, mock):
-        """
-        test that the fetch_data function is called by run
-        """
-        server_run()
-        self.assertTrue(mock.called)
-
     @patch('SwSpotify.spotify_web.Server')
     def test_server_function_returns_null_if_no_data(self, mock_server):
         mock_server.data = {'title': 'hi'}
-        result = server_run()
+        result = web_fetch_data()
         self.assertIsNone(result)
 
     @patch('SwSpotify.spotify_web.Server')
     def test_server_returns_none_when_no_data(self, mock_server):
         mock_server.data = [1, 2, 3, 4]
-        x = server_run()
+        x = web_fetch_data()
         print(x)
         self.assertIsNone(x)
 
