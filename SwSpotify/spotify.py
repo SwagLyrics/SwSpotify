@@ -41,7 +41,7 @@ def get_info_windows():
         track = windows[0]
 
     # The window title is the default one when paused
-    if windows[0] in ('Spotify Premium', 'Spotify Free'):
+    if windows[0].startswith('Spotify'):
         raise SpotifyPaused
 
     return track, artist
@@ -103,7 +103,7 @@ def get_info_mac():
         s = NSAppleScript.alloc().initWithSource_(apple_script_code)
         x = s.executeAndReturnError_(None)
         a = str(x[0]).split('"')
-        if a[5].lower != 'playing':
+        if a[5].lower() != 'playing':
             raise SpotifyPaused
     except IndexError:
         raise SpotifyClosed from None
