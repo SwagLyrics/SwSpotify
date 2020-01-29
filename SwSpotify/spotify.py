@@ -118,10 +118,10 @@ def get_info_web():
     from SwSpotify import WebData
     with open(os.devnull, 'w') as f, contextlib.redirect_stdout(f):
         SwSpotify.web_server.run()
-    if not WebData.track:
-        raise SpotifyClosed
-    elif WebData.playState == "Play":
+    if WebData.playState == "Play":
         raise SpotifyPaused
+    elif not WebData.track:
+        raise SpotifyClosed
     else:
         return WebData.track, WebData.artist
 

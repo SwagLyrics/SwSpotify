@@ -14,8 +14,8 @@ class WebData:
             WebData.artist = data['artist']
             WebData.playState = data['playState']
         except KeyError:
-            WebData.track = "Not found"
-            WebData.artist = "Not found"
+            WebData.track = None
+            WebData.artist = None
             WebData.playState = "Play"
 
 
