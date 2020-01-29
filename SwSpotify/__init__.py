@@ -9,9 +9,12 @@ class WebData:
 
     @staticmethod
     def set_song(data):
-        WebData.track = data['title']
-        WebData.artist = data['artist']
-        WebData.playState = data['playState']
+        try:
+            WebData.track = data['title']
+            WebData.artist = data['artist']
+            WebData.playState = data['playState']
+        except KeyError:
+            WebData.track = None
 
 
 class SpotifyNotRunning(Exception):
