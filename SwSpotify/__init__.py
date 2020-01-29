@@ -14,7 +14,9 @@ class WebData:
             WebData.artist = data['artist']
             WebData.playState = data['playState']
         except KeyError:
-            WebData.track = None
+            WebData.track = "Not found"
+            WebData.artist = "Not found"
+            WebData.playState = "Play"
 
 
 class SpotifyNotRunning(Exception):
