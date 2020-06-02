@@ -29,13 +29,13 @@ For linux you need `dbus` which is usually pre-installed.
 
 Use it in your project by importing it as:
 
-```pydocstring
+```py
 from SwSpotify import spotify
 ```
 
 Then you can access the song and artist as:
 
-```pydocstring
+```py
 >>> spotify.song()
 'Hello'
 >>> spotify.artist()
@@ -44,20 +44,20 @@ Then you can access the song and artist as:
 
 Since mostly song and artist are used in conjunction, there is a `current()` method as well.
 
-```pydocstring
+```py
 >>> spotify.current()
 ('Hello', 'Adele')
 ```
 
 This allows you to access song and artist by tuple unpacking as:
 
-```pydocstring
+```py
 >>> song, artist = spotify.current()
 ```
 
 A `SpotifyNotRunning` Exception is raised if Spotify is closed or paused. `SpotifyClosed` and `SpotifyPaused` inherit from `SpotifyNotRunning`, meaning that you can catch both at the same time:
 
-```pydocstring
+```py
 try:
     title, artist = spotify.current()
 except SpotifyNotRunning as e:
