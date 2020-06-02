@@ -7,7 +7,11 @@
 ![PyPI](https://img.shields.io/pypi/v/swspotify.svg)
 [![Downloads](https://pepy.tech/badge/swspotify)](https://pepy.tech/project/swspotify)
 
-SwSpotify is a Python library to get the song and artist of the currently playing song from the Spotify application faster and without using the API. It works on Windows, Linux and macOS. 
+SwSpotify is a Python library to get the song and artist of the currently playing song from the Spotify application faster and without using the API. It works on Windows, Linux, macOS and even the Spotify Web Player! 🥳
+
+In order to add support for the Spotify Web Player, the [SwagLyrics Chrome Extension](https://chrome.google.com/webstore/detail/swaglyrics-for-spotify/miopldoofdhmipepmnclnoangcdffmlk) needs to be installed. We have plans to extend this for other browsers as well.
+
+If you're a developer using SwSpotify, you can direct your end users to install the extension to automatically make your application work with the Spotify Web Player. The source of the Chrome Extension is open sourced at https://github.com/SwagLyrics/SwagLyrics-Chrome-Extension.
 
 The original repository was [spotilib](https://github.com/XanderMJ/spotilib) which worked just for Windows and hasn't been updated since a long while when it broke on account of Spotify updating their application.
 
@@ -25,13 +29,13 @@ For linux you need `dbus` which is usually pre-installed.
 
 Use it in your project by importing it as:
 
-```python
+```pydocstring
 from SwSpotify import spotify
 ```
 
 Then you can access the song and artist as:
 
-```python
+```pydocstring
 >>> spotify.song()
 'Hello'
 >>> spotify.artist()
@@ -40,20 +44,20 @@ Then you can access the song and artist as:
 
 Since mostly song and artist are used in conjunction, there is a `current()` method as well.
 
-```python
+```pydocstring
 >>> spotify.current()
 ('Hello', 'Adele')
 ```
 
 This allows you to access song and artist by tuple unpacking as:
 
-```python
+```pydocstring
 >>> song, artist = spotify.current()
 ```
 
 A `SpotifyNotRunning` Exception is raised if Spotify is closed or paused. `SpotifyClosed` and `SpotifyPaused` inherit from `SpotifyNotRunning`, meaning that you can catch both at the same time:
 
-```python
+```pydocstring
 try:
     title, artist = spotify.current()
 except SpotifyNotRunning as e:
