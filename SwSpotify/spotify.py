@@ -91,7 +91,7 @@ def get_info_mac():
     if is_launched then
         getCurrentlyPlayingTrack()
     else
-	    log "not playing"
+        log "not playing"
     end if
 
     on getCurrentlyPlayingTrack()
