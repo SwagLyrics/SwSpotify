@@ -87,10 +87,13 @@ def get_info_mac():
     from Foundation import NSAppleScript
 
     apple_script_code = """
+    # Check if Spotify is currently running via System Events
     tell application "System Events" to set is_launched to exists (processes where name is "Spotify")
     if is_launched then
+        # If this executes it means System Events reported that Spotify is currently running
         getCurrentlyPlayingTrack()
     else
+        # System Events reported that Spotify is currently not running
         log "not playing"
     end if
 
