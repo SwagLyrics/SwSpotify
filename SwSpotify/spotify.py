@@ -87,7 +87,12 @@ def get_info_mac():
     from Foundation import NSAppleScript
 
     apple_script_code = """
-    getCurrentlyPlayingTrack()
+    tell application "System Events" to set is_launched to exists (processes where name is "Spotify")
+    if is_launched then
+        getCurrentlyPlayingTrack()
+    else
+	    log "not playing"
+    end if
 
     on getCurrentlyPlayingTrack()
         tell application "Spotify"
