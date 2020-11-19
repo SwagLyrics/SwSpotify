@@ -92,9 +92,6 @@ def get_info_mac():
     if is_launched then
         # If this executes it means System Events reported that Spotify is currently running
         getCurrentlyPlayingTrack()
-    else
-        # System Events reported that Spotify is currently not running
-        log "not playing"
     end if
 
     on getCurrentlyPlayingTrack()
