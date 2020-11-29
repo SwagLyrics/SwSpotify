@@ -87,7 +87,7 @@ def get_info_mac():
     from Foundation import NSAppleScript
 
     apple_script_code = """
-    # Check if Spotify is currently running 
+    # Check if Spotify is currently running
     if application "Spotify" is running then
         # If this executes it means Spotify is currently running
         getCurrentlyPlayingTrack()
