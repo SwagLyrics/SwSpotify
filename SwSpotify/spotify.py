@@ -1,4 +1,5 @@
 import sys
+import subprocess
 from SwSpotify import SpotifyClosed, SpotifyPaused, SpotifyNotRunning
 
 
@@ -37,11 +38,11 @@ def get_info_windows():
     try:
         artist, track = windows[0].split(" - ", 1)
     except ValueError:
-        artist = ''
+        artist = ""
         track = windows[0]
 
     # The window title is the default one when paused
-    if windows[0].startswith('Spotify'):
+    if windows[0].startswith("Spotify"):
         raise SpotifyPaused
 
     return track, artist
@@ -53,24 +54,31 @@ def get_info_linux():
     """
 
     import dbus
-    if not hasattr(get_info_linux, 'session_bus'):
+
+    if not hasattr(get_info_linux, "session_bus"):
         get_info_linux.session_bus = dbus.SessionBus()
     try:
-        spotify_bus = get_info_linux.session_bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
-        spotify_properties = dbus.Interface(spotify_bus, "org.freedesktop.DBus.Properties")
+        spotify_bus = get_info_linux.session_bus.get_object(
+            "org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2"
+        )
+        spotify_properties = dbus.Interface(
+            spotify_bus, "org.freedesktop.DBus.Properties"
+        )
         metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player", "Metadata")
     except dbus.exceptions.DBusException:
         raise SpotifyClosed
 
-    track = str(metadata['xesam:title'])
+    track = str(metadata["xesam:title"])
     # When this function is called and Spotify hasn't finished setting up the dbus properties, the artist field
     # is empty. This counts as if it weren't open because no data is loaded.
     try:
-        artist = str(metadata['xesam:artist'][0])
+        artist = str(metadata["xesam:artist"][0])
     except IndexError:
         raise SpotifyClosed from None
-    status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player", "PlaybackStatus"))
-    if status.lower() != 'playing':
+    status = str(
+        spotify_properties.Get("org.mpris.MediaPlayer2.Player", "PlaybackStatus")
+    )
+    if status.lower() != "playing":
         raise SpotifyPaused
 
     return track, artist
@@ -83,8 +91,6 @@ def get_info_mac():
     Exceptions aren't thrown inside get_info_mac because it automatically
     opens Spotify if it's closed.
     """
-
-    from Foundation import NSAppleScript
 
     apple_script_code = """
     # Check if Spotify is currently running
@@ -103,16 +109,22 @@ def get_info_mac():
     end getCurrentlyPlayingTrack
     """
 
-    try:
-        s = NSAppleScript.alloc().initWithSource_(apple_script_code)
-        x = s.executeAndReturnError_(None)
-        a = str(x[0]).split('"')
-        if a[5].lower() != 'playing':
-            raise SpotifyPaused
-    except IndexError:
+    result = subprocess.run(
+        ["osascript", "-e", apple_script_code],
+        capture_output=True,
+        encoding="utf-8",
+    )
+
+    if not result.stdout:
         raise SpotifyClosed from None
 
-    return a[3], a[1]
+    # output is of the form "song, artist, status"
+    info = list(map(str.strip, result.stdout.split(",")))
+
+    if info[2].lower() != "playing":
+        raise SpotifyPaused
+
+    return info[1], info[0]
 
 
 def get_info_web():
@@ -120,7 +132,8 @@ def get_info_web():
     import os
     import contextlib
     from SwSpotify import WebData
-    with open(os.devnull, 'w') as f, contextlib.redirect_stdout(f):
+
+    with open(os.devnull, "w") as f, contextlib.redirect_stdout(f):
         SwSpotify.web_server.run()
     if not WebData.track:
         raise SpotifyClosed

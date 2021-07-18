@@ -13,17 +13,15 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/SwagLyrics/SwSpotify",
-    packages=['SwSpotify'],
-    install_requires=['flask==2.0.1', 'requests>=2.24.0', 'flask-cors==3.0.10', 'pywin32; platform_system=="Windows"',
-                      'pyobjc; platform_system=="Darwin"'],
-    extras_require={
-        'dev': [
-            'mock',
-            'pytest',
-            'pytest-cov'
-        ]
-    },
-    keywords='spotify swaglyrics python app',
+    packages=["SwSpotify"],
+    install_requires=[
+        "flask==2.0.1",
+        "requests>=2.24.0",
+        "flask-cors==3.0.10",
+        'pywin32; platform_system=="Windows"',
+    ],
+    extras_require={"dev": ["mock", "pytest", "pytest-cov"]},
+    keywords="spotify swaglyrics python app",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

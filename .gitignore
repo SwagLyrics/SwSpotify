@@ -12,3 +12,5 @@ SwSpotify\.egg-info/
 tests/__pycache__/
 
 \.coverage
+
+env/
