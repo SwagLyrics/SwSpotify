@@ -21,7 +21,7 @@ jobs:
       - name: Install Deps
         working-directory: ${{ github.workspace }}
         run: |
-          pip install wheel pytest-cov .[dev] codecov
+          pip install wheel pytest-cov .[dev] codecov mock
           pip install setuptools -U
       - name: Test
         working-directory: ${{ github.workspace }}
