@@ -155,7 +155,7 @@ def current():
         try:
             return get_info_web()
         except SpotifyClosed:
-            raise e
+            raise e from None
 
 
 def artist():
