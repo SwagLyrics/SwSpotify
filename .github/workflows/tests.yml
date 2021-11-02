@@ -18,6 +18,9 @@ jobs:
           architecture: x64
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install Deps
+        run: |
+          pip install pytest
       - name: Test
         working-directory: ${{ github.workspace }}
         run: |
