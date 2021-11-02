@@ -1,0 +1,33 @@
+name: Test
+
+on:
+  push:
+    branches: master
+
+jobs:
+  Test:
+    strategy: 
+      matrix:
+        python-version: ['3.6', '3.8', '3.9']
+    runs-on: windows-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v2
+          with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test
+        working-directory: ${{ github.workspace }}
+        run: |
+          pytest --cov-config=.coveragerc --cov=SwSpotify tests/test_spotify.py::WindowsTests
+      - name: Build
+        working-directory: ${{ github.workspace }}
+        run: |
+          python -m codecov
+      - name: Upload Built Wheels
+        uses: actions/upload-artifact@v2
+        with:
+          name: bdist_wheel
+          path: ${{ github.workspace }}/dist
