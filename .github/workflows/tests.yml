@@ -19,8 +19,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Deps
+        working-directory: ${{ github.workspace }}
         run: |
-          pip install pytest-cov
+          pip install wheel pytest-cov .[dev] codecov
+          pip install setuptools -U
       - name: Test
         working-directory: ${{ github.workspace }}
         run: |
