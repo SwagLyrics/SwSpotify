@@ -15,7 +15,7 @@ setuptools.setup(
     url="https://github.com/SwagLyrics/SwSpotify",
     packages=["SwSpotify"],
     install_requires=[
-        "flask==2.0.1",
+        "flask==2.0.2",
         "requests>=2.24.0",
         "flask-cors==3.0.10",
         'pywin32; platform_system=="Windows"',
