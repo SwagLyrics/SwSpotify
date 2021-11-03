@@ -19,7 +19,7 @@ jobs:
             test: LinuxTests
           - os: macos-latest
             test: DarwinTests
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Setup Python
         uses: actions/setup-python@v2
