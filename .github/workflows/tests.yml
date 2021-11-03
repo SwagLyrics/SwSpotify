@@ -39,6 +39,12 @@ jobs:
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Install Linux deps
+        if: ${{ matrix.os }} == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install python3-pip libdbus-glib-1-dev
+          sudo pip3 install --upgrade pip
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
