@@ -11,6 +11,14 @@ jobs:
     strategy: 
       matrix:
         python-version: ['3.6', '3.8', '3.9']
+        os: ['windows-latest', 'ubuntu-latest', 'macos-latest']
+        include:
+          - os: windows-latest
+            test: WindowsTests
+          - os: ubuntu-latest
+            test: LinuxTests
+          - os: macos-latest
+            test: DarwinTests
     runs-on: windows-latest
     steps:
       - name: Setup Python
@@ -38,7 +46,7 @@ jobs:
         run: poetry install --no-interaction
       - name: Test with pytest
         working-directory: ${{ github.workspace }}
-        run: poetry run pytest --cov-config=.coveragerc --cov-report=xml tests/test_spotify.py::WindowsTests
+        run: poetry run pytest --cov-config=.coveragerc --cov-report=xml tests/test_spotify.py::${{ env.test }}
       - name: Upload coverage
         uses: codecov/codecov-action@v2
         with:
