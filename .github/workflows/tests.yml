@@ -46,7 +46,7 @@ jobs:
         run: poetry install --no-interaction
       - name: Test with pytest
         working-directory: ${{ github.workspace }}
-        run: poetry run pytest --cov-config=.coveragerc --cov-report=xml tests/test_spotify.py::${{ env.test }}
+        run: poetry run pytest --cov-config=.coveragerc --cov-report=xml tests/test_spotify.py::${{ matrix.test }}
       - name: Upload coverage
         uses: codecov/codecov-action@v2
         with:
