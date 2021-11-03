@@ -18,11 +18,14 @@ jobs:
           architecture: x64
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install Poetry
+        uses: Gr1N/setup-poetry@v7
       - name: Install Deps
         working-directory: ${{ github.workspace }}
         run: |
-          pip install wheel pytest-cov .[dev] codecov mock
+          pip install wheel pytest-cov codecov mock
           pip install setuptools -U
+          poetry install
       - name: Test
         working-directory: ${{ github.workspace }}
         run: |
