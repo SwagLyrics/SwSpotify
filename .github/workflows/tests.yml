@@ -30,7 +30,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
@@ -38,7 +38,7 @@ jobs:
         run: poetry install --no-interaction
       - name: Test with pytest
         working-directory: ${{ github.workspace }}
-        run: poetry run pytest --cov=.coveragerc --cov-report=xml tests/test_spotify.py::WindowsTests
+        run: poetry run pytest --cov-config=.coveragerc --cov-report=xml tests/test_spotify.py::WindowsTests
       - name: Upload coverage
         uses: codecov/codecov-action@v1
         with:
