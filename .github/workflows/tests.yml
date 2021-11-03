@@ -8,6 +8,7 @@ on:
 
 jobs:
   Test:
+    continue-on-error: ${{ matrix.experimental }}
     strategy: 
       matrix:
         python-version: ['3.7', '3.9', '3.10', '3.11.0-alpha - 3.11']
@@ -20,10 +21,9 @@ jobs:
             test: LinuxTests
           - os: macos-latest
             test: DarwinTests
-          - python-version: 3.11.0-alpha - 3.11
+          - python-version: '3.11.0-alpha - 3.11'
             experimental: true
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
     steps:
       - name: Setup Python
         uses: actions/setup-python@v2
