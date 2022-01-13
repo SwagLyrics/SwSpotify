@@ -31,6 +31,7 @@ def get_info_windows():
         win32gui.EnumWindows(find_spotify_uwp, windows)
 
     # If Spotify isn't running the list will be empty
+    windows = list(filter(lambda window_title: "Spotify" in window_title or " - " in window_title, windows))
     if len(windows) == 0:
         raise SpotifyClosed
 
