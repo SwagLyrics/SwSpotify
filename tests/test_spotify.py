@@ -138,6 +138,7 @@ class WindowsTests(unittest.TestCase):
 
     @patch('win32gui.GetWindowText')
     @patch('win32gui.GetClassName', return_value="Chrome_WidgetWin_0")
+    @patch('win32process.GetModuleFileNameEx', return_value="C:/Users/testUser/AppData/Roaming/Spotify/Spotify.exe")
     def test_that_get_info_windows_works_for_new_spotify(self, mock_window_class, mock_window_text):
         """
         test that get_info_windows parses song, artist correctly from the Spotify window
