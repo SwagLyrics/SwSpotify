@@ -13,6 +13,9 @@ def get_info_windows():
     """
 
     import win32gui
+    import win32process
+    import win32api
+    import os
 
     windows = []
 
@@ -23,7 +26,13 @@ def get_info_windows():
         text = win32gui.GetWindowText(hwnd)
         classname = win32gui.GetClassName(hwnd)
         if classname == "Chrome_WidgetWin_0" and len(text) > 0:
-            windows.append(text)
+            _, proc_id = win32process.GetWindowThreadProcessId(hwnd)
+            proc_h = win32api.OpenProcess(0x410, False, proc_id)
+            path = win32process.GetModuleFileNameEx(proc_h, None)
+            win32api.CloseHandle(proc_h)
+
+            if os.path.basename(path) == "Spotify.exe":
+                windows.append(text)
 
     if old:
         windows.append(old)
@@ -31,7 +40,6 @@ def get_info_windows():
         win32gui.EnumWindows(find_spotify_uwp, windows)
 
     # If Spotify isn't running the list will be empty
-    windows = list(filter(lambda window_title: "Spotify" in window_title or " - " in window_title, windows))
     if len(windows) == 0:
         raise SpotifyClosed
 
