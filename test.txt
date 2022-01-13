@@ -1,0 +1,56 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.8.3, pytest-6.2.5, py-1.10.0, pluggy-0.13.1
+rootdir: C:\Users\akash\Desktop\SwSpotify
+plugins: ament-copyright-0.9.6, ament-flake8-0.9.6, ament-lint-0.9.6, ament-mypy-0.9.6, ament-pep257-0.9.6, ament-xmllint-0.9.6, launch-testing-0.10.7, launch-testing-ros-0.11.5, anyio-3.3.2, colcon-core-0.6.1, cov-2.12.0, mock-3.6.1, repeat-0.9.1, rerunfailures-10.0
+collected 1 item
+
+tests\test_spotify.py F                                                  [100%]
+
+================================== FAILURES ===================================
+________ WindowsTests.test_that_get_info_windows_works_for_new_spotify ________
+
+self = <tests.test_spotify.WindowsTests testMethod=test_that_get_info_windows_works_for_new_spotify>
+mock_window_path = <MagicMock name='GetModuleFileNameEx' id='2586164394544'>
+mock_window_class = <MagicMock name='GetClassName' id='2586164519696'>
+mock_window_text = <MagicMock name='GetWindowText' id='2586164539936'>
+
+    @patch('win32gui.GetWindowText')
+    @patch('win32gui.GetClassName', return_value="Chrome_WidgetWin_0")
+    @patch('win32process.GetModuleFileNameEx', return_value="C:\\Users\\testUser\\AppData\\Roaming\\Spotify\\Spotify.exe")
+    def test_that_get_info_windows_works_for_new_spotify(self, mock_window_path, mock_window_class, mock_window_text):
+        """
+        test that get_info_windows parses song, artist correctly from the Spotify window
+        """
+        def w_text():
+            yield ''
+            while True:
+                yield 'Adele - Hello'
+        window_text = w_text()
+        mock_window_text.side_effect = window_text
+    
+>       song, artist = get_info_windows()
+
+tests\test_spotify.py:154: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+SwSpotify\spotify.py:40: in get_info_windows
+    win32gui.EnumWindows(find_spotify_uwp, windows)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+hwnd = 328350
+windows = ['Adele - Hello', 'Adele - Hello', 'Adele - Hello', 'Adele - Hello', 'Adele - Hello', 'Adele - Hello', ...]
+
+    def find_spotify_uwp(hwnd, windows):
+        text = win32gui.GetWindowText(hwnd)
+        classname = win32gui.GetClassName(hwnd)
+        if classname == "Chrome_WidgetWin_0" and len(text) > 0:
+            _, proc_id = win32process.GetWindowThreadProcessId(hwnd)
+>           proc_h = win32api.OpenProcess(0x410, False, proc_id)
+E           pywintypes.error: (5, 'OpenProcess', 'Access is denied.')
+
+SwSpotify\spotify.py:30: error
+============================== warnings summary ===============================
+..\..\..\..\Python38\lib\site-packages\pyreadline\py3k_compat.py:8
+  Warning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.9 it will stop working
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html
+======================== 1 failed, 1 warning in 0.81s =========================

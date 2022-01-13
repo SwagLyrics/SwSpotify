@@ -12,10 +12,12 @@ def get_info_windows():
     Chrome_WidgetWin_0s
     """
 
+    import win32api
     import win32gui
     import win32process
-    import win32api
     import os
+
+    PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
 
     windows = []
 
@@ -27,7 +29,7 @@ def get_info_windows():
         classname = win32gui.GetClassName(hwnd)
         if classname == "Chrome_WidgetWin_0" and len(text) > 0:
             _, proc_id = win32process.GetWindowThreadProcessId(hwnd)
-            proc_h = win32api.OpenProcess(0x410, False, proc_id)
+            proc_h = win32api.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, proc_id)
             path = win32process.GetModuleFileNameEx(proc_h, None)
             win32api.CloseHandle(proc_h)
 
