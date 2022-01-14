@@ -15,7 +15,7 @@ def get_info_windows():
     import win32api
     import win32gui
     import win32process
-    import os
+    from pathlib import Path
 
     PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
 
@@ -28,13 +28,18 @@ def get_info_windows():
         text = win32gui.GetWindowText(hwnd)
         classname = win32gui.GetClassName(hwnd)
         if classname == "Chrome_WidgetWin_0" and len(text) > 0:
+            # Retrieve the thread id and process id that created the Spotify window
             _, proc_id = win32process.GetWindowThreadProcessId(hwnd)
+            # Retrieve a handle to the Spotify process
             proc_h = win32api.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, proc_id)
+            # Get the file path of the Spotify process
             path = win32process.GetModuleFileNameEx(proc_h, None)
+            # Close the handle
             win32api.CloseHandle(proc_h)
 
-            if os.path.basename(path) == "Spotify.exe":
+            if Path(path).name == "Spotify.exe":
                 windows.append(text)
+                return False  # Stop enumeration once we found it
 
     if old:
         windows.append(old)
