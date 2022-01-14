@@ -8,7 +8,8 @@ on:
 
 jobs:
   Test:
-    strategy: 
+    strategy:
+      fail-fast: false
       matrix:
         python-version: ['3.7', '3.8', '3.9', '3.10']
         os: ['windows-latest', 'ubuntu-latest', 'macos-latest']
@@ -52,8 +53,9 @@ jobs:
         run: poetry install --no-interaction
       - name: Test with pytest
         working-directory: ${{ github.workspace }}
-        run: poetry run pytest --cov-config=.coveragerc --cov-report=xml tests/test_spotify.py::${{ matrix.test }}
+        run: poetry run pytest --cov-config=.coveragerc --cov-report=xml --cov='.' tests/test_spotify.py::${{ matrix.test }}
       - name: Upload coverage
         uses: codecov/codecov-action@v2
         with:
+          files: coverage.xml
           fail_ci_if_error: true

@@ -73,6 +73,7 @@ class WindowsTests(unittest.TestCase):
 
     if platform.system() == "Windows":
         import win32gui
+        import win32process
 
     @patch('win32gui.GetWindowText', return_value='Alan Walker - Darkside')
     @patch('win32gui.EnumWindows', return_value=None)
@@ -138,7 +139,9 @@ class WindowsTests(unittest.TestCase):
 
     @patch('win32gui.GetWindowText')
     @patch('win32gui.GetClassName', return_value="Chrome_WidgetWin_0")
-    def test_that_get_info_windows_works_for_new_spotify(self, mock_window_class, mock_window_text):
+    @patch('win32api.OpenProcess', return_value=None)
+    @patch('win32process.GetModuleFileNameEx', return_value="C:\\Users\\u\\AppData\\Roaming\\Spotify\\Spotify.exe")
+    def test_that_get_info_windows_works_for_new_spotify(self, mw_path, mw_proc, mock_window_class, mock_window_text):
         """
         test that get_info_windows parses song, artist correctly from the Spotify window
         """
@@ -148,6 +151,33 @@ class WindowsTests(unittest.TestCase):
                 yield 'Adele - Hello'
         window_text = w_text()
         mock_window_text.side_effect = window_text
+
+        song, artist = get_info_windows()
+        self.assertEqual(song, 'Hello')
+        self.assertEqual(artist, 'Adele')
+
+    @patch('win32gui.GetWindowText')
+    @patch('win32gui.GetClassName', return_value="Chrome_WidgetWin_0")
+    @patch('win32api.OpenProcess', return_value=None)
+    @patch('win32process.GetModuleFileNameEx')
+    def test_that_get_info_windows_works_for_false_positive(self, mw_path, mw_proc, mock_window_class, mock_window_text):
+        """
+        test that get_info_windows parses song, artist correctly from the Spotify window
+        """
+        def w_text():
+            yield ''
+            yield 'Toolbox'
+            while True:
+                yield 'Adele - Hello'
+        window_text = w_text()
+        mock_window_text.side_effect = window_text
+
+        def w_path():
+            yield 'C:\\Users\\u\\AppData\\Roaming\\Spotify\\Toolbox.exe'
+            while True:
+                yield 'C:\\Users\\u\\AppData\\Roaming\\Spotify\\Spotify.exe'
+        window_path = w_path()
+        mw_path.side_effect = window_path
 
         song, artist = get_info_windows()
         self.assertEqual(song, 'Hello')
