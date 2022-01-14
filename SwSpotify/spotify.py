@@ -15,6 +15,7 @@ def get_info_windows():
     import win32api
     import win32gui
     import win32process
+    import pywintypes
     from pathlib import Path
 
     PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
@@ -39,12 +40,18 @@ def get_info_windows():
 
             if Path(path).name == "Spotify.exe":
                 windows.append(text)
-                return False  # Stop enumeration once we found it
+                # Stop enumeration once we found it
+                # This will always throw a pywintypes.error by design
+                return False
 
     if old:
         windows.append(old)
     else:
-        win32gui.EnumWindows(find_spotify_uwp, windows)
+        try:
+            win32gui.EnumWindows(find_spotify_uwp, windows)
+        except pywintypes.error:
+            pass
+
 
     # If Spotify isn't running the list will be empty
     if len(windows) == 0:
