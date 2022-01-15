@@ -1,5 +1,5 @@
-name = 'SwSpotify'
-__version__ = '1.2.1'
+name = "SwSpotify"
+__version__ = "1.2.1"
 
 
 class WebData:
@@ -10,9 +10,9 @@ class WebData:
     @staticmethod
     def set_song(data):
         try:
-            WebData.track = data['title']
-            WebData.artist = data['artist']
-            WebData.playState = data['playState']
+            WebData.track = data["title"]
+            WebData.artist = data["artist"]
+            WebData.playState = data["playState"]
         except KeyError:
             WebData.track = None
             WebData.artist = None
@@ -33,12 +33,10 @@ class SpotifyNotRunning(Exception):
 
 
 class SpotifyPaused(SpotifyNotRunning):
-
     def __init__(self, message="Spotify appears to be paused at the moment."):
         super().__init__(message)
 
 
 class SpotifyClosed(SpotifyNotRunning):
-
     def __init__(self, message="Spotify appears to be closed at the moment."):
         super().__init__(message)

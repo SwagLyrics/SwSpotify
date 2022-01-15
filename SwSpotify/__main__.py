@@ -10,5 +10,5 @@ def main():
         print(f"{title} - {artist}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
