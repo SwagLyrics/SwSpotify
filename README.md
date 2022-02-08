@@ -1,8 +1,7 @@
 # SwSpotify
 
 [![Discord Server](https://badgen.net/badge/discord/join%20chat/7289DA?icon=discord)](https://discord.gg/DSUZGK4)
-[![Build Status](https://travis-ci.com/SwagLyrics/SwSpotify.svg?branch=master)](https://travis-ci.com/SwagLyrics/SwSpotify)
-[![Build status](https://ci.appveyor.com/api/projects/status/c8heviwe9q2m8lb0?svg=true)](https://ci.appveyor.com/project/TheClashster/swspotify)
+[![Test](https://github.com/SwagLyrics/SwSpotify/actions/workflows/tests.yml/badge.svg)](https://github.com/SwagLyrics/SwSpotify/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/SwagLyrics/SwSpotify/branch/master/graph/badge.svg)](https://codecov.io/gh/SwagLyrics/SwSpotify)
 ![PyPI](https://img.shields.io/pypi/v/swspotify.svg)
 [![Downloads](https://pepy.tech/badge/swspotify)](https://pepy.tech/project/swspotify)
@@ -19,12 +18,15 @@ Originally made for use in [SwagLyrics for Spotify](https://github.com/SwagLyric
 
 ## Installation
 
-Requires Python3. Use pip or pip3 depending on your installation. You might want to use the `--user` flag on Linux to 
+Requires Python3. Use pip or pip3 depending on your installation. You might want to use the `--user` flag on Linux to
 avoid using pip as root.
+
 ```shell
 pip install SwSpotify
 ```
+
 For linux you need `dbus` which is usually pre-installed.
+
 ## Usage
 
 Use it in your project by importing it as:
@@ -65,15 +67,16 @@ except SpotifyNotRunning as e:
 else:
     print(f"{title} - {artist}")
 ```
+
 In case Spotify is closed or paused, that will automatically be reflected in the value of `e`.
 
 For finer control you can catch `SpotifyClosed` and `SpotifyPaused` separately.
+
 ## Compiling SwSpotify for Development
 
 - Clone the repo by `git clone https://github.com/SwagLyrics/SwSpotify.git` or use ssh.
 - `cd` into the cloned repo.
 - `pip install -e .` the -e flag installs it locally in editable mode.
-
 
 ## Contributing
 

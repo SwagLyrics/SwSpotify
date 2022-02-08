@@ -52,7 +52,6 @@ def get_info_windows():
         except pywintypes.error:
             pass
 
-
     # If Spotify isn't running the list will be empty
     if len(windows) == 0:
         raise SpotifyClosed
@@ -81,12 +80,8 @@ def get_info_linux():
     if not hasattr(get_info_linux, "session_bus"):
         get_info_linux.session_bus = dbus.SessionBus()
     try:
-        spotify_bus = get_info_linux.session_bus.get_object(
-            "org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2"
-        )
-        spotify_properties = dbus.Interface(
-            spotify_bus, "org.freedesktop.DBus.Properties"
-        )
+        spotify_bus = get_info_linux.session_bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
+        spotify_properties = dbus.Interface(spotify_bus, "org.freedesktop.DBus.Properties")
         metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player", "Metadata")
     except dbus.exceptions.DBusException:
         raise SpotifyClosed
@@ -98,9 +93,7 @@ def get_info_linux():
         artist = str(metadata["xesam:artist"][0])
     except IndexError:
         raise SpotifyClosed from None
-    status = str(
-        spotify_properties.Get("org.mpris.MediaPlayer2.Player", "PlaybackStatus")
-    )
+    status = str(spotify_properties.Get("org.mpris.MediaPlayer2.Player", "PlaybackStatus"))
     if status.lower() != "playing":
         raise SpotifyPaused
 
