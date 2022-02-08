@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "SwSpotify"
-version = "1.2.2"
+version = "1.2.3"
 description = "Get currently playing song and artist from Spotify faster without using the API."
 authors = ["Aadi Bajpai <clash@swaglyrics.dev>"]
 license = "MIT"
