@@ -25,7 +25,7 @@ flask = "^2.0.1"
 requests = "^2.25.1"
 Flask-Cors = "^3.0.10"
 dbus-python = {version = "^1.2.16", platform = "linux"}
-pywin32 = {version = ">=301,<304", platform = "win32"}
+pywin32 = {version = ">=301,<305", platform = "win32"}
 
 
 [tool.poetry.dev-dependencies]
