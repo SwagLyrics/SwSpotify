@@ -31,7 +31,7 @@ pywin32 = {version = ">=301,<304", platform = "win32"}
 [tool.poetry.dev-dependencies]
 mock = "^4.0.3"
 pytest = "^7.0.0"
-pytest-cov = "^3.0.0"
+pytest-cov = "^4.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
